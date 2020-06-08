@@ -1,0 +1,46 @@
+{
+  "version": "1.0.1",
+  "name": "Knife Shooter",
+  "launch_path": "/index.html",
+  "description": "Await your chance to aim all the knives onto the board. There are 15 levels, and each level gets harder with other objects and obstacles added",
+  "subtitle": "Aim the knives to destroy the board!",
+  "type": "web",
+  "icons": {
+    "56": "/icons/knifeShooter56.png",
+    "112": "/icons/KnifeShooter112.png"
+  },
+  "developer": {
+    "name": "Eyepax",
+    "url": "https://www.eyepax.com"
+  },
+  "dependencies": {
+		"ads-sdk": "1.3.0"
+	},
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en-US",
+  "categories": [
+    "sports",
+    "games"
+  ],
+  "permissions": {
+    "desktop-notification": {
+      "description": "To show notifications"
+    },
+    "geolocation": {
+      "description": "Marking out user location"
+    },
+    "alarms": {
+      "description": "Scheduling alarms"
+    }
+  },
+  "fullscreen": "true",
+  "locales": {
+     "en-US": {
+      "name": "Knife Shooter",
+      "subtitle": "Aim the knives to destroy the board!",
+      "description": "Await your chance to aim all the knives onto the board. There are 15 levels, and each level gets harder with other objects and obstacles added."
+    }
+  }
+}
