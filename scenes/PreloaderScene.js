@@ -77,13 +77,14 @@ class Preloader extends Phaser.Scene {
     this.image.displayWidth = game.config.width;
 
     //this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
     this.time.addEvent({
       delay: 2000,
       callback: () => {
         this.gotoNextScreen();
       },
       loop: false
-    })
+    });
   }
 
   update() {
@@ -92,8 +93,9 @@ class Preloader extends Phaser.Scene {
 
 
   gotoNextScreen() {
-    var isFirst = localStorage.getItem('KS isFirstTime')
-    //console.log("is first"+ isFirst);
+    var isFirst = localStorage.getItem('LG isFirstTime');
+    // console.log("is first"+ isFirst);
+
     if (isFirst == null) {
       this.scene.transition({
         target: 'IntroductionScene',
