@@ -6,7 +6,7 @@ class ScoreScene extends Phaser.Scene {
 
     // preloading assets
     preload() {
-        this.load.image("background", "assets/img/High_Score.png");
+        this.load.image("background", "assets/img/LaddersHighScore.png");
     }
 
     // method to be executed once, when the scene has been created
@@ -54,9 +54,9 @@ class ScoreScene extends Phaser.Scene {
             }
         }, this);
 
-        var HighScore = localStorage.getItem('KS Best Score') || 0;
-        var ScondHighScore = localStorage.getItem('KS Second Best Score') || 0;
-        var ThirdHighScore = localStorage.getItem('KS Third Best Score') || 0;
+        var HighScore = localStorage.getItem('LG Best Score') || 0;
+        var ScondHighScore = localStorage.getItem('LG Second Best Score') || 0;
+        var ThirdHighScore = localStorage.getItem('LG Third Best Score') || 0;
 
         //console.log(HighScore +"  "+ScondHighScore+"  "+ThirdHighScore);
 
