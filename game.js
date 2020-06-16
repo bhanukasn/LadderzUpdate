@@ -9,9 +9,9 @@ var gameOptions = {
     floorStart: 0.9375, // = 600/640 for lowerst floor and 40 high floor
     floorGap: 200,
     playerGravity: 10000,
-    playerSpeed: 450,
+    playerSpeed: 250,
     climbSpeed: 450,
-    playerJump: 1800,
+    playerJump: 1700,
     diamondRatio: 2,
     doubleSpikeRatio: 1,
     skyColor: 0xaaeaff,
