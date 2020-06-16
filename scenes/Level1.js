@@ -215,7 +215,7 @@ class Level1 extends Phaser.Scene {
     }
 
     //game objects
-    killFloor(floor) {
+    killFloor(floor){
         floor.destroy();
         this.floorPool.push(floor);
     }
