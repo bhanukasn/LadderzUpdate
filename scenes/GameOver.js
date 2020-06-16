@@ -17,18 +17,18 @@ class GameOver extends Phaser.Scene {
     localStorage.getItem('Completed Level');
 
     this.load.image("bgGameOver", "assets/img/Levelfailed.png");
-    // this.load.spritesheet('btn_restart', 'assets/img/btn_try_again_new.png', { frameWidth: 192, frameHeight: 180 });
-    // this.load.spritesheet('btn_restart_hover', 'assets/img/btn_try_again_hover_new.png', { frameWidth: 192, frameHeight: 180 });
+    // this.load.spritesheet('btn_failed_restart', 'assets/img/btn_try_again_new.png', { frameWidth: 192, frameHeight: 180 });
+    // this.load.spritesheet('btn_failed_restart_hover', 'assets/img/btn_try_again_hover_new.png', { frameWidth: 192, frameHeight: 180 });
 
-    this.load.image("btn_restart", "assets/img/btn_try_again_new.png");
-    this.load.image("btn_restart_hover", "assets/img/btn_try_again_hover_new.png");
+    this.load.image("btn_failed_restart", "assets/img/FailedTryAgain.png");
+    this.load.image("btn_failed_restart_hover", "assets/img/FailedTryAgainHover.png");
 
 
-    // this.load.spritesheet('btn_exit', 'assets/img/button_exit_new.png', { frameWidth: 192, frameHeight: 180 });
-    // this.load.spritesheet('btn_exit_hover', 'assets/img/btn_exit_hover_new.png', { frameWidth: 192, frameHeight: 180 });
+    // this.load.spritesheet('btn_failed_exit', 'assets/img/button_exit_new.png', { frameWidth: 192, frameHeight: 180 });
+    // this.load.spritesheet('btn_failed_exit_hover', 'assets/img/btn_failed_exit_hover_new.png', { frameWidth: 192, frameHeight: 180 });
 
-    this.load.image("btn_exit", "assets/img/btn_exit_new.png");
-    this.load.image("btn_exit_hover", "assets/img/btn_exit_hover_new.png");
+    this.load.image("btn_failed_exit", "assets/img/FailedExit.png");
+    this.load.image("btn_failed_exit_hover", "assets/img/FailedExitHover.png");
 
   }
 
@@ -61,17 +61,17 @@ class GameOver extends Phaser.Scene {
 
 
     //kaiads
-    getKaiAd({
-      publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
-      app: 'Knife shooter',
-      slot: 'knife shooter',
-      onerror: err => console.error('Custom catch:', err),
-      onready: ad => {
-        // Ad is ready to be displayed
-        // calling 'display' will display the ad
-        ad.call('display')
-      }
-    })
+    // getKaiAd({
+    //   publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
+    //   app: 'Knife shooter',
+    //   slot: 'knife shooter',
+    //   onerror: err => console.error('Custom catch:', err),
+    //   onready: ad => {
+    //     // Ad is ready to be displayed
+    //     // calling 'display' will display the ad
+    //     ad.call('display')
+    //   }
+    // })
 
     this.input.keyboard.on('keyup', function (e) {
       if (e.key == "Enter") {
@@ -100,9 +100,9 @@ class GameOver extends Phaser.Scene {
     //this.gameOver = this.add.text(game.config.width / 4, game.config.height / 2, 'GAME OVER', { fontSize: '80px', fill: '#FFF' });
 
     //===============================
-    this.FinalScore = this.add.text(game.config.width / 1.6, game.config.width / 1.85, score, { fontSize: '40px', fill: '#FFF' });
+    this.FinalScore = this.add.text(game.config.width / 1.6, game.config.width / 1.675, score, { fontSize: '40px', fill: '#FFF' });
 
-    this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.6, '' + localStorage.getItem('LG Best Score'), { fontSize: '40px', fill: '#FFF' });
+    this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.5, '' + localStorage.getItem('LG Best Score'), { fontSize: '40px', fill: '#FFF' });
 
     //==================================
 
@@ -138,9 +138,11 @@ class GameOver extends Phaser.Scene {
 
     // Button PLay
 
-    this.btn_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_restart_hover', 0).setInteractive();
-    this.btn_restart.displayHeight = game.config.height / 8.9;
-    this.btn_restart.displayWidth = game.config.width / 2.8;
+    this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart_hover', 0).setInteractive();
+    // this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart', 0).setInteractive();
+
+    this.btn_failed_restart.displayHeight = game.config.height / 8.9;
+    this.btn_failed_restart.displayWidth = game.config.width / 2.8;
 
 
     // Button Score
@@ -150,9 +152,9 @@ class GameOver extends Phaser.Scene {
 
 
     // Button Option
-    this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_exit', 0).setInteractive();
-    this.btn_exit.displayHeight = game.config.height / 8.9;
-    this.btn_exit.displayWidth = game.config.width / 2.8;
+    this.btn_failed_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_failed_exit', 0).setInteractive();
+    this.btn_failed_exit.displayHeight = game.config.height / 8.9;
+    this.btn_failed_exit.displayWidth = game.config.width / 2.8;
 
 
 
@@ -195,31 +197,30 @@ class GameOver extends Phaser.Scene {
 
     switch (this.selected_button) {
       case "Restart":
+        this.btn_failed_restart.destroy();
+        this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart', 0).setInteractive();
+        this.btn_failed_restart.displayHeight = game.config.height / 8.9;
+        this.btn_failed_restart.displayWidth = game.config.width / 2.8;
 
-        this.btn_restart.destroy();
-        this.btn_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_restart', 0).setInteractive();
-        this.btn_restart.displayHeight = game.config.height / 8.9;
-        this.btn_restart.displayWidth = game.config.width / 2.8;
-
-        this.btn_exit.destroy();
-        this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_exit_hover', 0).setInteractive();
-        this.btn_exit.displayHeight = game.config.height / 8.9;
-        this.btn_exit.displayWidth = game.config.width / 2.8;
+        this.btn_failed_exit.destroy();
+        this.btn_failed_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_failed_exit_hover', 0).setInteractive();
+        this.btn_failed_exit.displayHeight = game.config.height / 8.9;
+        this.btn_failed_exit.displayWidth = game.config.width / 2.8;
 
         this.selected_button = "Exit"
         break;
 
       case "Exit":
 
-        this.btn_exit.destroy();
-        this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_exit', 0).setInteractive();
-        this.btn_exit.displayHeight = game.config.height / 8.9;
-        this.btn_exit.displayWidth = game.config.width / 2.8;
+        this.btn_failed_exit.destroy();
+        this.btn_failed_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_failed_exit', 0).setInteractive();
+        this.btn_failed_exit.displayHeight = game.config.height / 8.9;
+        this.btn_failed_exit.displayWidth = game.config.width / 2.8;
 
-        this.btn_restart.destroy();
-        this.btn_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_restart_hover', 0).setInteractive();
-        this.btn_restart.displayHeight = game.config.height / 8.9;
-        this.btn_restart.displayWidth = game.config.width / 2.8;
+        this.btn_failed_restart.destroy();
+        this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart_hover', 0).setInteractive();
+        this.btn_failed_restart.displayHeight = game.config.height / 8.9;
+        this.btn_failed_restart.displayWidth = game.config.width / 2.8;
 
         this.selected_button = "Restart"
         break;
@@ -234,30 +235,30 @@ class GameOver extends Phaser.Scene {
     switch (this.selected_button) {
       case "Restart":
 
-        this.btn_exit.destroy();
-        this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_exit_hover', 0).setInteractive();
-        this.btn_exit.displayHeight = game.config.height / 8.9;
-        this.btn_exit.displayWidth = game.config.width / 2.8;
+        this.btn_failed_exit.destroy();
+        this.btn_failed_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_failed_exit_hover', 0).setInteractive();
+        this.btn_failed_exit.displayHeight = game.config.height / 8.9;
+        this.btn_failed_exit.displayWidth = game.config.width / 2.8;
 
-        this.btn_restart.destroy();
-        this.btn_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_restart', 0).setInteractive();
-        this.btn_restart.displayHeight = game.config.height / 8.9;
-        this.btn_restart.displayWidth = game.config.width / 2.8;
+        this.btn_failed_restart.destroy();
+        this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart', 0).setInteractive();
+        this.btn_failed_restart.displayHeight = game.config.height / 8.9;
+        this.btn_failed_restart.displayWidth = game.config.width / 2.8;
 
         this.selected_button = "Exit"
         break;
 
       case "Exit":
 
-        this.btn_restart.destroy();
-        this.btn_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_restart_hover', 0).setInteractive();
-        this.btn_restart.displayHeight = game.config.height / 8.9;
-        this.btn_restart.displayWidth = game.config.width / 2.8;
+        this.btn_failed_restart.destroy();
+        this.btn_failed_restart = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 4.2, 'btn_failed_restart_hover', 0).setInteractive();
+        this.btn_failed_restart.displayHeight = game.config.height / 8.9;
+        this.btn_failed_restart.displayWidth = game.config.width / 2.8;
 
-        this.btn_exit.destroy();
-        this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_exit', 0).setInteractive();
-        this.btn_exit.displayHeight = game.config.height / 8.9;
-        this.btn_exit.displayWidth = game.config.width / 2.8;
+        this.btn_failed_exit.destroy();
+        this.btn_failed_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5.2, 'btn_failed_exit', 0).setInteractive();
+        this.btn_failed_exit.displayHeight = game.config.height / 8.9;
+        this.btn_failed_exit.displayWidth = game.config.width / 2.8;
 
         this.selected_button = "Restart"
         break;
