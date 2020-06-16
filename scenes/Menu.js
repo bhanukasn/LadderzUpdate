@@ -19,7 +19,7 @@ class Menu extends Phaser.Scene {
         this.load.image("btn_score_hover", "assets/img/btn_score_hover_new.png");
         this.load.image("btn_help_hover", "assets/img/btn_help_hover_new.png");
 
-        this.load.image("bgMenu", "assets/img/Knife-Shot-menu-bg.png");
+        this.load.image("bgMenu", "assets/img/LaddersMenuBg.png");
         this.load.image("btn_play_hover", "assets/img/btn_play_hover_new.png");
 
         // this.load.audio('bgMusic', ['assets/Game_Menu.mp3']);
@@ -28,7 +28,7 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        localStorage.setItem('KS isFirstTime',"yes")
+        localStorage.setItem('LG isFirstTime',"yes")
         //
         this.events.on('transitionstart', function (fromScene, duration) {
             this.cameras.main.setZoom(0.001);

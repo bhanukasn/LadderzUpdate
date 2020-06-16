@@ -13,7 +13,7 @@ class LevelCompleted extends Phaser.Scene {
 
 
     preload() {
-        this.load.image("bglevelpassed", "assets/img/LevelPassed.png");
+        this.load.image("bglevelpassed", "assets/img/LaddersLevelPassed.png");
         // this.load.spritesheet('btn_restart', 'assets/img/btn_try_again_new.png', { frameWidth: 192, frameHeight: 180 });
         // this.load.spritesheet('btn_restart_hover', 'assets/img/btn_try_again_hover_new.png', { frameWidth: 192, frameHeight: 180 });
 
@@ -53,17 +53,19 @@ class LevelCompleted extends Phaser.Scene {
         //
 
         //kaiads
-        getKaiAd({
-            publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
-            app: 'Knife shooter',
-            slot: 'knife shooter',
-            onerror: err => console.error('Custom catch:', err),
-            onready: ad => {
-                // Ad is ready to be displayed
-                // calling 'display' will display the ad
-                ad.call('display')
-            }
-        })
+        //temp remove
+
+        // getKaiAd({
+        //     publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
+        //     app: 'Knife shooter',
+        //     slot: 'knife shooter',
+        //     onerror: err => console.error('Custom catch:', err),
+        //     onready: ad => {
+        //         // Ad is ready to be displayed
+        //         // calling 'display' will display the ad
+        //         ad.call('display')
+        //     }
+        // })
 
         this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bglevelpassed');
         this.image.displayHeight = game.config.height;
@@ -99,7 +101,7 @@ class LevelCompleted extends Phaser.Scene {
         //===============================
         this.FinalScore = this.add.text(game.config.width / 1.6, game.config.width / 1.85, score, { fontSize: '40px', fill: '#FFF' });
 
-        this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.6, '' + localStorage.getItem('KS Best Score'), { fontSize: '40px', fill: '#FFF' });
+        this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.6, '' + localStorage.getItem('LG Best Score'), { fontSize: '40px', fill: '#FFF' });
 
         //==================================
 
@@ -115,17 +117,17 @@ class LevelCompleted extends Phaser.Scene {
         //this.finalScore.displayHeight = game.config.height/5;
         //this.finalScore.displayWidth = game.config.width/4;
 
-        if (localStorage.getItem('KS Best Score') === null) {
+        if (localStorage.getItem('LG Best Score') === null) {
             this.bestScore.setText(0);
         } else {
-            this.bestScore.setText(localStorage.getItem('KS Best Score'));
+            this.bestScore.setText(localStorage.getItem('LG Best Score'));
         }
 
-        if (score > localStorage.getItem('KS Best Score')) {
-            localStorage.setItem('KS Third Best Score', localStorage.getItem('KS Second Best Score'));
-            localStorage.setItem('KS Second Best Score', localStorage.getItem('KS Best Score'));
-            localStorage.setItem('KS Best Score', score);
-            this.bestScore.setText(localStorage.getItem('KS Best Score'));
+        if (score > localStorage.getItem('LG Best Score')) {
+            localStorage.setItem('LG Third Best Score', localStorage.getItem('LG Second Best Score'));
+            localStorage.setItem('LG Second Best Score', localStorage.getItem('LG Best Score'));
+            localStorage.setItem('LG Best Score', score);
+            this.bestScore.setText(localStorage.getItem('LG Best Score'));
         }
 
         // Click to play text

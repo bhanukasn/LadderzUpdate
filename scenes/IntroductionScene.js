@@ -5,12 +5,11 @@ class IntroductionScene extends Phaser.Scene {
     }
 
     preload() {
-
-        this.load.image("bgGamePL", "assets/img/PassLevels.png");
-        // this.load.image("bgLevels", "assets/img/levels.png");
-        this.load.image("bgGameControls", "assets/img/GameControls.png");
-        this.load.image("bgGameEP", "assets/img/ExtraPoints.png");
-        this.load.image("bgGameFL", "assets/img/FailLevels.png");
+        this.load.image("lgGameIns", "assets/img/LaddersInstructions.png");
+        this.load.image("lgGameControls", "assets/img/LaddersGameControls.png");
+        this.load.image("lgGameObs", "assets/img/LaddersAvoidObstacles.png");
+        this.load.image("lgGamePoints", "assets/img/LaddersEarnPoints.png");
+        this.load.image("lgGameLevels", "assets/img/LaddersUnlockLevels.png");
     }
 
     create() {
@@ -45,9 +44,9 @@ class IntroductionScene extends Phaser.Scene {
             }
         }, this);
 
-        this.selected_screen = 'control';
+        this.selected_screen = 'instruction';
 
-        this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGameControls');
+        this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameIns');
         this.image.displayHeight = game.config.height;
         this.image.displayWidth = game.config.width;
 
@@ -87,26 +86,40 @@ class IntroductionScene extends Phaser.Scene {
 
     changeSlidesRight() {
         switch (this.selected_screen) {
-            case "control":
+            case "instruction":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGamePL');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameObs');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "GamePL";
+                this.selected_screen = "GameObs";
                 break;
-            case "GamePL":
+            case "GameObs":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGameEP');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGamePoints');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "GameEP";
+                this.selected_screen = "GamePoints";
                 break;
-            case "GameEP":
+            case "GamePoints":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGameFL');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameControls');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "GameFL";
+                this.selected_screen = "GameControls";
+                break;
+            case "GameControls":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameLevels');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "GameLevels";
+                break;
+            case "GameLevels":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameIns');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "instruction";
                 break;
         }
         //this.skip = this.add.text(game.config.width - game.config.width * 10 / 100, game.config.height - game.config.height * 5 / 100, "Skip").setFontSize(50).setFontFamily("Arial").setOrigin(0.5);
@@ -115,34 +128,41 @@ class IntroductionScene extends Phaser.Scene {
 
     changeSlidesLeft() {
         switch (this.selected_screen) {
-            case "GameFL":
+            case "GameLevels":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGameEP');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameControls');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "GameEP";
+                this.selected_screen = "GameControls";
                 break;
-            case "GameEP":
+            case "GameControls":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGamePL');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGamePoints');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "GamePL";
+                this.selected_screen = "GamePoints";
                 break;
-            case "GamePL":
+            case "GamePoints":
                 this.image.destroy();
-                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGameControls');
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameObs');
                 this.image.displayHeight = game.config.height;
                 this.image.displayWidth = game.config.width;
-                this.selected_screen = "control";
+                this.selected_screen = "GameObs";
                 break;
-            // case "control":
-            //     this.image.destroy();
-            //     this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGamePL');
-            //     this.image.displayHeight = game.config.height;
-            //     this.image.displayWidth = game.config.width;
-            //     this.selected_screen = "GamePL";
-            //     break;
+            case "GameObs":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameIns');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "instruction";
+                break;
+            case "instruction":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameLevels');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "GameLevels";
+                break;
         }
         // this.skip = this.add.text(game.config.width - game.config.width * 10 / 100, game.config.height - game.config.height * 5 / 100, "Skip").setFontSize(50).setFontFamily("Arial").setOrigin(0.5);
         this.goBackbtn = this.add.text(game.config.width - game.config.width * 8 / 100, game.config.height - game.config.height * 5 / 100, "Back").setFontSize(30).setFontFamily("Arial").setOrigin(0.5);
