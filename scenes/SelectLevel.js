@@ -10,8 +10,8 @@ class SelectLevel extends Phaser.Scene {
     }
 
 
-    preload() {
-        this.load.image("bgselectLevel", "assets/img/Map.png");
+    preload() {alert('call');
+        this.load.image("bgselectLevel", "assets/img/LaddersLevelsLocked.png");
         this.load.image("notcompleted", "assets/img/notcompleted.png");
         this.load.image("completed", "assets/img/completed.png");
     }
