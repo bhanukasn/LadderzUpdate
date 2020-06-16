@@ -114,6 +114,13 @@ class IntroductionScene extends Phaser.Scene {
                 this.image.displayWidth = game.config.width;
                 this.selected_screen = "GameLevels";
                 break;
+            case "GameLevels":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameIns');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "instruction";
+                break;
         }
         //this.skip = this.add.text(game.config.width - game.config.width * 10 / 100, game.config.height - game.config.height * 5 / 100, "Skip").setFontSize(50).setFontFamily("Arial").setOrigin(0.5);
         this.goBack = this.add.text(game.config.width - game.config.width * 8 / 100, game.config.height - game.config.height * 5 / 100, "Back").setFontSize(30).setFontFamily("Arial").setOrigin(0.5);
@@ -149,13 +156,13 @@ class IntroductionScene extends Phaser.Scene {
                 this.image.displayWidth = game.config.width;
                 this.selected_screen = "instruction";
                 break;
-            // case "control":
-            //     this.image.destroy();
-            //     this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bgGamePL');
-            //     this.image.displayHeight = game.config.height;
-            //     this.image.displayWidth = game.config.width;
-            //     this.selected_screen= "GamePL";
-            //     break;
+            case "instruction":
+                this.image.destroy();
+                this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'lgGameLevels');
+                this.image.displayHeight = game.config.height;
+                this.image.displayWidth = game.config.width;
+                this.selected_screen = "GameLevels";
+                break;
         }
         // this.skip = this.add.text(game.config.width - game.config.width * 10 / 100, game.config.height - game.config.height * 5 / 100, "Skip").setFontSize(50).setFontFamily("Arial").setOrigin(0.5);
         this.goBackbtn = this.add.text(game.config.width - game.config.width * 8 / 100, game.config.height - game.config.height * 5 / 100, "Back").setFontSize(30).setFontFamily("Arial").setOrigin(0.5);
