@@ -13,7 +13,7 @@ class LevelCompleted extends Phaser.Scene {
 
 
     preload() {
-        this.load.image("bglevelpassed", "assets/img/LevelPassed.png");
+        this.load.image("bglevelpassed", "assets/img/LaddersLevelPassed.png");
         // this.load.spritesheet('btn_restart', 'assets/img/btn_try_again_new.png', { frameWidth: 192, frameHeight: 180 });
         // this.load.spritesheet('btn_restart_hover', 'assets/img/btn_try_again_hover_new.png', { frameWidth: 192, frameHeight: 180 });
 
@@ -53,17 +53,19 @@ class LevelCompleted extends Phaser.Scene {
         //
 
         //kaiads
-        getKaiAd({
-            publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
-            app: 'Knife shooter',
-            slot: 'knife shooter',
-            onerror: err => console.error('Custom catch:', err),
-            onready: ad => {
-                // Ad is ready to be displayed
-                // calling 'display' will display the ad
-                ad.call('display')
-            }
-        })
+        //temp remove
+
+        // getKaiAd({
+        //     publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
+        //     app: 'Knife shooter',
+        //     slot: 'knife shooter',
+        //     onerror: err => console.error('Custom catch:', err),
+        //     onready: ad => {
+        //         // Ad is ready to be displayed
+        //         // calling 'display' will display the ad
+        //         ad.call('display')
+        //     }
+        // })
 
         this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bglevelpassed');
         this.image.displayHeight = game.config.height;
