@@ -58,6 +58,15 @@ class ContactScene extends Phaser.Scene {
             }
         }, this);
 
+        //touchable
+        this.goBack.setInteractive().on('pointerup', (pointer, localX, localY, event) => {
+            this.scene.transition({
+                target: "Menu",
+                moveAbove: true,
+                duration: 300,
+            })
+        });
+
 
         // this.back_space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
         // this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
