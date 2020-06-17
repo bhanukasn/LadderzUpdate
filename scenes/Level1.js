@@ -10,7 +10,8 @@ class Level1 extends Phaser.Scene {
     preload() {
         this.load.image("floor", "assets/img/floor.png");
         // this.load.image("hero", "assets/img/hero.png");
-
+        this.load.image("playBG", "assets/img/Background.png");
+        this.load.image("score", "assets/img/Score.png")
         this.load.spritesheet("hero", "assets/img/hero2.png", { frameWidth: 100, frameHeight: 100 });
         this.load.image("ladder", "assets/img/ladder2.png");
         this.load.image("diamond", "assets/img/diamond.png");
@@ -23,6 +24,7 @@ class Level1 extends Phaser.Scene {
 
     // method to be executed once the scene has been created
     create() {
+        this.score = 0;
         this.savedData = localStorage.getItem(gameOptions.localStorageName) == null ? { score: 0 } : JSON.parse(localStorage.getItem(gameOptions.localStorageName));
         this.gameOver = false;
         this.reachedFloor = 0;
@@ -31,9 +33,20 @@ class Level1 extends Phaser.Scene {
         this.isClimbing = false;
         this.defineGroups();
 
+        //background
+        this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'playBG');
+        this.image.displayHeight = game.config.height;
+        this.image.displayWidth = game.config.width;
+
         this.drawLevel();
         // this.defineTweens();
         this.handleTap();
+
+        //score button
+        this.score_btn = this.add.image(game.config.width / 7, game.config.height / 15 + 5, 'score');
+        this.score_btn.displayHeight = game.config.height / 15;
+        this.score_btn.displayWidth = game.config.width / 4;
+        this.scoreText = this.add.text(game.config.width / 16, game.config.height / 16, "SCORE:" + this.score, { fontSize: '15px', fill: '#FFF' });
     }
 
     defineGroups() {
@@ -301,6 +314,7 @@ class Level1 extends Phaser.Scene {
                 this.hero.body.gravity.y = gameOptions.playerGravity;
                 this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
                 this.hero.body.velocity.y = 0;
+                this.updateScore(ladderScore);
                 this.isClimbing = false;
                 this._scrollStop();
             }
@@ -315,6 +329,14 @@ class Level1 extends Phaser.Scene {
             setTimeout(() => { this.scene.start("Level1"); }, 500);
         }, null, this);
     }
+
+    //update the score
+    updateScore(inc) {
+        this.score += inc;
+        // this.scoreText.text = "Score: " + this.score + "\nBest: " + this.topScore;
+        this.scoreText.setText('SCORE:' + this.score);
+    }
+
 }
 
 // pure javascript to scale the game

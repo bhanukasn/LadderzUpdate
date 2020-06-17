@@ -28,6 +28,7 @@ var scoreText;
 var isLevelAchieved = false;
 var levelText;
 var level = 1;
+var ladderScore = 10;
 
 // function to be executed when the windows has loaded
 window.onload = function () {
