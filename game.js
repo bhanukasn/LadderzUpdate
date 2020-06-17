@@ -9,13 +9,13 @@ var gameOptions = {
     floorStart: 0.9375, // = 600/640 for lowerst floor and 40 high floor
     floorGap: 200,
     playerGravity: 10000,
-    playerSpeed: 250,
+    playerSpeed: 150,
     climbSpeed: 450,
     playerJump: 1700,
     diamondRatio: 2,
-    doubleSpikeRatio: 1,
+    doubleSpikeRatio: 2,
     skyColor: 0xaaeaff,
-    safeRadius: 180,
+    safeRadius: 100,
     localStorageName: "climbgame",
     versionNumber: "1.0"
 }

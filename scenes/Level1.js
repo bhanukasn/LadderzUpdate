@@ -9,7 +9,9 @@ class Level1 extends Phaser.Scene {
     // method to be executed when the scene preloads
     preload() {
         this.load.image("floor", "assets/img/floor.png");
-        this.load.image("hero", "assets/img/hero.png");
+        // this.load.image("hero", "assets/img/hero.png");
+
+        this.load.spritesheet("hero", "assets/img/hero2.png", { frameWidth: 100, frameHeight: 100 });
         this.load.image("ladder", "assets/img/ladder2.png");
         this.load.image("diamond", "assets/img/diamond.png");
         this.load.image("diamondparticle", "assets/img/diamondparticle.png");
@@ -32,11 +34,10 @@ class Level1 extends Phaser.Scene {
         this.drawLevel();
         // this.defineTweens();
         this.handleTap();
-
     }
 
     defineGroups() {
-        this.gameGroup = new Array();;
+        this.gameGroup = new Array();
         this.floorGroup = this.physics.add.group();
         this.diamondGroup = this.physics.add.group();
         this.ladderGroup = this.physics.add.group();
@@ -66,7 +67,7 @@ class Level1 extends Phaser.Scene {
             this.highestFloorY -= gameOptions.floorGap;
             this.currentFloor++;
         }
-        this.highestFloorY += gameOptions.floorGap;
+        // this.highestFloorY += gameOptions.floorGap;
         this.currentFloor = 0;
         this.addHero();
     }
@@ -83,7 +84,6 @@ class Level1 extends Phaser.Scene {
 
     //add Ladder
     addLadder(highestFloorY) {
-         console.log( highestFloorY + 10+"======>") 
         var ladderXPosition = Phaser.Math.Between(50, game.config.width - 50);
         var ladder = this.physics.add.sprite(ladderXPosition, highestFloorY + 50, "ladder");
         // ladder.displayHeight = 120;
@@ -151,8 +151,22 @@ class Level1 extends Phaser.Scene {
 
     //add Hero
     addHero() {
-        this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 40, "hero");
-        this.gameGroup.push(this.hero)
+        this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 80, 'hero');
+        // this.hero2  .body.isSensor = true;
+        // enimy
+        this.anims.create({
+            key: 'hero22',
+            repeat: -1,
+            frameRate: 7,
+            frames: this.anims.generateFrameNames('hero', { start: 1, end: 6 })
+        });
+
+        this.hero.play('hero22');
+        // this.hero.displayWidth = 100;
+        // this.hero.displayHeight = 100;
+        this.hero.setSize(40, 80, true)
+        // this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 40, "hero");
+        this.gameGroup.push(this.hero);
         this.hero.body.setCollideWorldBounds();
         this.hero.body.gravity.y = gameOptions.playerGravity;
         this.hero.body.velocity.x = gameOptions.playerSpeed;
@@ -160,62 +174,60 @@ class Level1 extends Phaser.Scene {
 
     //tween
     _scrollStart() {
-        console.log(this.gameGroup)
         this.tweensToGo = 0;
 
-        this.floorGroup.getChildren().map(function (c) {c.body.velocity.y = 2000 })
-        this.ladderGroup.getChildren().map(function (c) {c.body.velocity.y = 2000 })
-        this.spikeGroup.getChildren().map(function (c) {c.body.velocity.y = 2000 })
-        this.diamondGroup.getChildren().map(function (c) {c.body.velocity.y = 2000 })
+        this.floorGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
+        this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
+        this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
+        this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
     }
 
-    _scrollStop(){
-        this.floorGroup.getChildren().map(function (c) {c.body.velocity.y = 0 })
-        this.ladderGroup.getChildren().map(function (c) {c.body.velocity.y = 0 })
-        this.spikeGroup.getChildren().map(function (c) {c.body.velocity.y = 0 })
-        this.diamondGroup.getChildren().map(function (c) {c.body.velocity.y = 0 })
+    _scrollStop() {
+        this.floorGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
+        this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
+        this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
+        this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
 
-         var floorState = [];
-         var ladderState = [];
-         var spikeState = [];
-         var diamondState = [];
+        var floorState = [];
+        var ladderState = [];
+        var spikeState = [];
+        var diamondState = [];
 
-            this.floorGroup.getChildren().map((floor,index) => {
-                console.log(floor.y)
-                floorState.push(floor.y);
-                if(floor.y > game.config.height){
-                    this.killFloor(floor);
-                }
-            },this);
-            
-            this.ladderGroup.getChildren().map((ladder,index) => {
-                ladderState.push(ladder.y);
-                if(ladder.y > game.config.height){
-                    this.killFloor(ladder);
-                }
-            },this);
+        this.floorGroup.getChildren().map((floor, index) => {
+            floorState.push(floor.y);
+            if (floor.y > game.config.height) {
+                this.killFloor(floor);
+            }
+        }, this);
 
-            this.spikeGroup.getChildren().map((spike,index) => {
-                spikeState.push(spike.y);
-                if(spike.y > game.config.height){
-                    this.killFloor(spike);
-                }
-            },this);
+        this.ladderGroup.getChildren().map((ladder, index) => {
+            ladderState.push(ladder.y);
+            if (ladder.y > game.config.height) {
+                this.killFloor(ladder);
+            }
+        }, this);
 
-            this.diamondGroup.getChildren().map((diamond,index) => {
-                diamondState.push(diamond.y);
-                if(diamond.y > game.config.height){
-                    this.killFloor(diamond);
-                }
-            },this);
-        this.addFloor(floorState[this.floorGroup.getChildren().length-1] - gameOptions.floorGap)
-        this.addLadder(ladderState[this.ladderGroup.getChildren().length-1] - ( gameOptions.floorGap + 50));
-        this.addSpike(spikeState[this.spikeGroup.getChildren().length-1] -( gameOptions.floorGap - 20));
-        this.addDiamond(diamondState[this.diamondGroup.getChildren().length-1] -(gameOptions.floorGap / 2));
+        this.spikeGroup.getChildren().map((spike, index) => {
+            spikeState.push(spike.y);
+            if (spike.y > game.config.height) {
+                this.killFloor(spike);
+            }
+        }, this);
+
+        this.diamondGroup.getChildren().map((diamond, index) => {
+            diamondState.push(diamond.y);
+            if (diamond.y > game.config.height) {
+                this.killFloor(diamond);
+            }
+        }, this);
+        this.addFloor(floorState[this.floorGroup.getChildren().length - 1] - gameOptions.floorGap)
+        this.addLadder(ladderState[this.ladderGroup.getChildren().length - 1] - (gameOptions.floorGap + 50));
+        this.addSpike(spikeState[this.spikeGroup.getChildren().length - 1] - (gameOptions.floorGap - 20));
+        this.addDiamond(diamondState[this.diamondGroup.getChildren().length - 1] - (gameOptions.floorGap / 2));
     }
 
     //game objects
-    killFloor(floor){
+    killFloor(floor) {
         floor.destroy();
         this.floorPool.push(floor);
     }
@@ -249,24 +261,24 @@ class Level1 extends Phaser.Scene {
             this.checkFloorCollision();
             this._heroRun();
             this.checkLadderCollision();
+            // this.checkSpikeCollision();
         }
     }
 
-    checkFloorCollision () {
+    checkFloorCollision() {
         this.physics.add.collider(this.hero, this.floorGroup, () => {
             this.canJump = true;
         }, null, this);
     }
 
     _heroRun() {
-        if (this.hero.x === game.config.width - 10) {
+        if (this.hero.x === game.config.width - 80) {
             this.hero.body.velocity.x = -gameOptions.playerSpeed;
             this.hero.scaleX = -1;
-            //  console.log(this.hero.scaleX)
 
-        } else if (this.hero.x <= 10) {
+        } else if (this.hero.x <= 40) {
             this.hero.body.velocity.x = gameOptions.playerSpeed;
-            this.hero.scaleX = 1;
+            this.hero.scaleX = 1;          
         }
     }
 
@@ -285,7 +297,7 @@ class Level1 extends Phaser.Scene {
                 });
             }, null, this);
         } else {
-            if (this.hero.y < this.ladderToClimb.y - 80) {
+            if (this.hero.y < this.ladderToClimb.y -10) {
                 this.hero.body.gravity.y = gameOptions.playerGravity;
                 this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
                 this.hero.body.velocity.y = 0;
@@ -293,6 +305,15 @@ class Level1 extends Phaser.Scene {
                 this._scrollStop();
             }
         }
+    }
+    checkSpikeCollision() {
+        this.physics.overlap(this.hero, this.spikeGroup, () => {
+            this.gameOver = true;
+            this.hero.body.velocity.x = Phaser.Math.Between(-20, 20);
+            this.hero.body.velocity.y = -gameOptions.playerJump;
+            this.hero.body.gravity.y = gameOptions.playerGravity;
+            setTimeout(() => { this.scene.start("Level1"); }, 500);
+        }, null, this);
     }
 }
 
