@@ -300,19 +300,37 @@ class Level1 extends Phaser.Scene {
 
     checkLadderCollision() {
         // var isCollided = false;
+        // if (!this.isClimbing) {
+        //     this.isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
+        //         this.ladderGroup.getChildren().forEach(ladder => {
+        //             if (Math.abs(this.hero.x - ladder.x) < 10) {
+        //                 this.ladderToClimb = ladder;
+        //                 this.hero.body.velocity.x = 0;
+        //                 this.hero.body.velocity.y = - gameOptions.climbSpeed;
+        //                 this.hero.body.gravity.y = 0;
+        //                 this.isClimbing = true;
+        //                 // this._scrollStart();
+        //             }
+        //         });
+        //     }, null, this);
+        // }
         if (!this.isClimbing) {
             this.isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
-                this.ladderGroup.getChildren().forEach(ladder => {
-                    if (Math.abs(this.hero.x - ladder.x) < 10) {
-                        this.ladderToClimb = ladder;
+                var ladders = this.ladderGroup.getChildren();
+                for(var i = 0; i < ladders.length; i++){
+                    if (Math.abs(this.hero.x - ladders[i].x) < 10) {
+                        this.ladderToClimb = ladders[i];
                         this.hero.body.velocity.x = 0;
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
+                        break;
                         // this._scrollStart();
                     }
-                });
+                }
+                ladders = null;
             }, null, this);
+
         } else {
             console.log(this.isCollided)
             console.log(this.hero.y + " <========> "+ (this.ladderToClimb.y -90))
