@@ -177,7 +177,7 @@ class Level1 extends Phaser.Scene {
         this.hero.play('hero22');
         // this.hero.displayWidth = 100;
         // this.hero.displayHeight = 100;
-        this.hero.setSize(40, 80, true)
+        this.hero.setSize(40, 60, true)
         // this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 40, "hero");
         this.gameGroup.push(this.hero);
         this.hero.body.setCollideWorldBounds();
@@ -189,10 +189,13 @@ class Level1 extends Phaser.Scene {
     _scrollStart() {
         this.tweensToGo = 0;
 
-        this.floorGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
-        this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
-        this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
-        this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 2000 })
+        this.floorGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
+        this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
+        this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
+        this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
+        setTimeout(() => {
+            this._scrollStop();
+        }, 200);
     }
 
     _scrollStop() {
@@ -285,7 +288,7 @@ class Level1 extends Phaser.Scene {
     }
 
     _heroRun() {
-        if (this.hero.x === game.config.width - 80) {
+        if (this.hero.x === game.config.width - 60) {
             this.hero.body.velocity.x = -gameOptions.playerSpeed;
             this.hero.scaleX = -1;
 
@@ -296,8 +299,9 @@ class Level1 extends Phaser.Scene {
     }
 
     checkLadderCollision() {
+        // var isCollided = false;
         if (!this.isClimbing) {
-            var isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
+            this.isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
                 this.ladderGroup.getChildren().forEach(ladder => {
                     if (Math.abs(this.hero.x - ladder.x) < 10) {
                         this.ladderToClimb = ladder;
@@ -305,18 +309,25 @@ class Level1 extends Phaser.Scene {
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
-                        this._scrollStart();
+                        // this._scrollStart();
                     }
                 });
             }, null, this);
         } else {
-            if (this.hero.y < this.ladderToClimb.y -10) {
+            console.log(this.isCollided)
+            this.physics.world.removeCollider(this.isCollided);
+            // this.isCollided.active = false;
+            if (this.hero.y < this.ladderToClimb.y -90) {
                 this.hero.body.gravity.y = gameOptions.playerGravity;
                 this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
                 this.hero.body.velocity.y = 0;
                 this.updateScore(ladderScore);
                 this.isClimbing = false;
-                this._scrollStop();
+                setTimeout(() => {
+                    this._scrollStart();
+                }, 500);
+                this._scrollStart();
+                // this._scrollStop();
             }
         }
     }
