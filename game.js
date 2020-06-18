@@ -11,7 +11,7 @@ var gameOptions = {
     playerGravity: 5000,
     playerSpeed: 150,
     climbSpeed: 350,
-    playerJump: 700,
+    playerJump: 800,
     diamondRatio: 2,
     doubleSpikeRatio: 2,
     skyColor: 0xaaeaff,

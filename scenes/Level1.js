@@ -282,9 +282,10 @@ class Level1 extends Phaser.Scene {
     }
 
     checkFloorCollision() {
-        this.physics.add.collider(this.hero, this.floorGroup, () => {
+        var isCollider = this.physics.add.collider(this.hero, this.floorGroup, () => {
             this.canJump = true;
         }, null, this);
+        console.log(isCollider.active)
     }
 
     _heroRun() {
@@ -309,16 +310,16 @@ class Level1 extends Phaser.Scene {
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
-                        // this._scrollStart();
                     }
+                    console.log(ladder.y +'<============>'+this.ladderToClimb.y)
                 });
+                
             }, null, this);
         } else {
-            console.log(this.isCollided)
-            console.log(this.hero.y + " <========> "+ (this.ladderToClimb.y -90))
+            console.log(this.hero.y + " <========> "+ (this.ladderToClimb.y))
             this.physics.world.removeCollider(this.isCollided);
             // this.isCollided.active = false;
-            if (this.hero.y < this.ladderToClimb.y -90) {
+            if (this.hero.y < this.ladderToClimb.y -105) {
                 this.hero.body.gravity.y = gameOptions.playerGravity;
                 this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
                 this.hero.body.velocity.y = 0;
