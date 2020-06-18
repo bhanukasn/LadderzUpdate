@@ -195,7 +195,7 @@ class Level1 extends Phaser.Scene {
         this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
         setTimeout(() => {
             this._scrollStop();
-        }, 200);
+        }, 400);
     }
 
     _scrollStop() {
@@ -315,6 +315,7 @@ class Level1 extends Phaser.Scene {
             }, null, this);
         } else {
             console.log(this.isCollided)
+            console.log(this.hero.y + " <========> "+ (this.ladderToClimb.y -90))
             this.physics.world.removeCollider(this.isCollided);
             // this.isCollided.active = false;
             if (this.hero.y < this.ladderToClimb.y -90) {
@@ -326,7 +327,7 @@ class Level1 extends Phaser.Scene {
                 setTimeout(() => {
                     this._scrollStart();
                 }, 500);
-                this._scrollStart();
+                // this._scrollStart();
                 // this._scrollStop();
             }
         }
@@ -349,6 +350,63 @@ class Level1 extends Phaser.Scene {
     }
 
 }
+
+//Object for game level attributes
+gameLevels = {
+    arr: [
+        {
+            score: 0,
+            levelNumber: 'LEVEL:1',
+            playerSpeed: 150,
+            holeRatio: 0,
+            diamondRatio: 0,
+            turtleRatio: 0,
+            turtleSpeed: 0,
+            winingScore: 250
+        },
+        {
+            score: 0,
+            levelNumber: 'LEVEL:2',
+            playerSpeed: 200,
+            holeRatio: 1,
+            diamondRatio: 0,
+            turtleRatio: 0,
+            turtleSpeed: 0,
+            winingScore: 250
+        },
+        {
+            score: 0,
+            levelNumber: 'LEVEL:3',
+            playerSpeed: 200,
+            holeRatio: 0,
+            diamondRatio: 0,
+            turtleRatio: 1,
+            turtleSpeed: 0,
+            winingScore: 250
+        },
+        {
+            score: 0,
+            levelNumber: 'LEVEL:4',
+            playerSpeed: 200,
+            holeRatio: 0,
+            diamondRatio: 2,
+            turtleRatio: 1,
+            turtleSpeed: 50,
+            winingScore: 250
+        },
+        {
+            score: 0,
+            levelNumber: 'LEVEL:5',
+            playerSpeed: 200,
+            holeRatio: 1,
+            diamondRatio: 2,
+            turtleRatio: 1,
+            turtleSpeed: 50,
+            winingScore: 250
+        }
+    ],
+
+};
 
 // pure javascript to scale the game
 function resize() {
