@@ -177,7 +177,7 @@ class Level1 extends Phaser.Scene {
         this.hero.play('hero22');
         // this.hero.displayWidth = 100;
         // this.hero.displayHeight = 100;
-        this.hero.setSize(40, 60, true)
+        this.hero.setSize(40, 80, true)
         // this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 40, "hero");
         this.gameGroup.push(this.hero);
         this.hero.body.setCollideWorldBounds();
@@ -301,22 +301,40 @@ class Level1 extends Phaser.Scene {
 
     checkLadderCollision() {
         // var isCollided = false;
+        // if (!this.isClimbing) {
+        //     this.isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
+        //         this.ladderGroup.getChildren().forEach(ladder => {
+        //             if (Math.abs(this.hero.x - ladder.x) < 10) {
+        //                 this.ladderToClimb = ladder;
+        //                 this.hero.body.velocity.x = 0;
+        //                 this.hero.body.velocity.y = - gameOptions.climbSpeed;
+        //                 this.hero.body.gravity.y = 0;
+        //                 this.isClimbing = true;
+        //                 // this._scrollStart();
+        //             }
+        //         });
+        //     }, null, this);
+        // }
         if (!this.isClimbing) {
             this.isCollided = this.physics.overlap(this.hero, this.ladderGroup, () => {
-                this.ladderGroup.getChildren().forEach(ladder => {
-                    if (Math.abs(this.hero.x - ladder.x) < 10) {
-                        this.ladderToClimb = ladder;
+                var ladders = this.ladderGroup.getChildren();
+                for(var i = 0; i < ladders.length; i++){
+                    if (Math.abs(this.hero.x - ladders[i].x) < 10) {
+                        this.ladderToClimb = ladders[i];
                         this.hero.body.velocity.x = 0;
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
+                        break;
+                        // this._scrollStart();
+                        console.log(this.ladders[i].y + " <========> "+ (this.ladderToClimb.y))
                     }
-                    console.log(ladder.y +'<============>'+this.ladderToClimb.y)
-                });
-                
+                }
+                ladders = null;
             }, null, this);
+
         } else {
-            console.log(this.hero.y + " <========> "+ (this.ladderToClimb.y))
+            
             this.physics.world.removeCollider(this.isCollided);
             // this.isCollided.active = false;
             if (this.hero.y < this.ladderToClimb.y -105) {
