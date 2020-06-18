@@ -177,7 +177,7 @@ class Level1 extends Phaser.Scene {
         this.hero.play('hero22');
         // this.hero.displayWidth = 100;
         // this.hero.displayHeight = 100;
-        this.hero.setSize(40, 80, true)
+        this.hero.setSize(40, 70, true)
         // this.hero = this.physics.add.sprite(game.config.width / 2, game.config.height * gameOptions.floorStart - 40, "hero");
         this.gameGroup.push(this.hero);
         this.hero.body.setCollideWorldBounds();
@@ -289,7 +289,7 @@ class Level1 extends Phaser.Scene {
     }
 
     _heroRun() {
-        if (this.hero.x === game.config.width - 60) {
+        if (this.hero.x >= game.config.width - 30) {
             this.hero.body.velocity.x = -gameOptions.playerSpeed;
             this.hero.scaleX = -1;
 
@@ -326,11 +326,11 @@ class Level1 extends Phaser.Scene {
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
                         break;
-                        // this._scrollStart();
-                        console.log(this.ladders[i].y + " <========> "+ (this.ladderToClimb.y))
-                    }
+                        console.log(this.ladderToClimb.y+"======"+ladders[i].y)
+                    }                    
                 }
-                ladders = null;
+                
+                // ladders = null;
             }, null, this);
 
         } else {
