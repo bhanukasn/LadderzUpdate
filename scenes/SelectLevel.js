@@ -27,106 +27,6 @@ class SelectLevel extends Phaser.Scene {
         this.load.image('L4Locked', 'assets/img/Level4Locked.png');
     }
 
-    create(){
-        // this.background = this.add.image(0,0,"background");
-        this.background = this.add.tileSprite(0, 0, gameConfig.width, gameConfig.height, "background")
-        this.background.setOrigin(0,0);
-        // this.background.setScrollFactor(0);
-
-        // this.ship1 = this.add.image(gameConfig.width/2 - 50,gameConfig.height/2,"ship");
-        // this.ship2 = this.add.image(gameConfig.width/2,gameConfig.height/2,"ship2");
-        // this.ship3 = this.add.image(gameConfig.width/2 + 50, gameConfig.height/2,"ship3");
-        this.ship1 = this.add.sprite(gameConfig.width/2 - 50,gameConfig.height/2,"ship");
-        this.ship2 = this.add.sprite(gameConfig.width/2,gameConfig.height/2,"ship2");
-        this.ship3 = this.add.sprite(gameConfig.width/2 + 50, gameConfig.height/2,"ship3");
-
-        this.enemies = this.physics.add.group();
-        this.enemies.add(this.ship1);
-        this.enemies.add(this.ship2);
-        this.enemies.add(this.ship3);
-
-        this.powerUps = this.physics.add.group();
-
-        var maxObjects = 4;
-        for (var i = 0; i <= maxObjects; i++){
-            var powerUp = this.physics.add.sprite(16,16,"power-up");
-            this.powerUps.add(powerUp);
-            powerUp.setRandomPosition(0,0,game.config.width, game.config.height);
-
-            if (Math.random() > 0.5){
-                powerUp.play("red");
-            }else {
-                powerUp.play("gray");
-            }
-
-            powerUp.setVelocity(100,100);
-            powerUp.setCollideWorldBounds(true);
-            powerUp.setBounce(1);
-        }
-
-        this.ship1.play("ship1_anim");
-        this.ship2.play("ship2_anim");
-        this.ship3.play("ship3_anim");
-
-        //Add the player to the physics
-        this.player = this.physics.add.sprite(gameConfig.width/2 - 8, gameConfig.height - 64, "player");
-        this.player.play("thrust");
-
-        //create cursor keys
-        this.cursorKeys = this.input.keyboard.createCursorKeys();
-
-        //Dont let the player to leave the screen
-        this.player.setCollideWorldBounds(true);
-
-        //camera follows the player
-        // this.cameras.main.startFollow(this.player);
-
-        //fire button define
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.projectiles = this.add.group();
-
-        this.ship1.setInteractive();
-        this.ship2.setInteractive();
-        this.ship3.setInteractive();
-
-        this.input.on('gameobjectdown', this.destroyShip, this);
-
-        // this.add.text(20,20,"Playing game", {
-        //     font: "25px Arial",
-        //     fill: "yellow"
-        // });
-
-        //graphic object to the score
-        var graphics = this.add.graphics();
-        graphics.fillStyle(0x000000, 1);
-        graphics.beginPath();
-        graphics.moveTo(0, 0);
-        graphics.lineTo(gameConfig.width, 0);
-        graphics.lineTo(gameConfig.width, 20);
-        graphics.lineTo(0, 20);
-        graphics.lineTo(0, 0);
-        graphics.closePath();
-        graphics.fillPath();
-
-        this.score = 0;
-        this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE", 16);
-
-
-        //collision between beams and power ups
-        this.physics.add.collider(this.projectiles, this.powerUps, function (projectile, powerup) {
-            projectile.destroy();
-        });
-
-        //overlap player and powerup
-        this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
-
-        //player hit enemy
-        this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
-
-        //beam hit enemy
-        this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
-    }
-
     create() {
         //
         this.events.on('transitionstart', function (fromScene, duration) {
@@ -137,6 +37,12 @@ class SelectLevel extends Phaser.Scene {
             // this.cameras.main.zoomTo(1, 300);
             this.cameras.main.zoomTo(1, 300);
         }, this);
+
+        //variables
+        this.selectedLevel = parseInt(localStorage.getItem('Completed Level'));
+        if (localStorage.getItem('Completed Level') == null) {
+            this.selectedLevel = 0;
+        }
 
         // this.events.on('transitioncomplete', function (fromScene) {
 
@@ -212,33 +118,33 @@ class SelectLevel extends Phaser.Scene {
         this.btn_play.displayWidth = game.config.width / 2;
 
         // Button Score
-        if (localStorage.getItem('L1') == "C") {
+        if (localStorage.getItem('LEVEL:1') == "C") {
             this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
             this.btn_score.displayHeight = game.config.height / 8;
             this.btn_score.displayWidth = game.config.width / 2.1;
-        } else if (localStorage.getItem('L1') == null) {
+        } else if (localStorage.getItem('LEVEL:1') == null) {
             this.btn_score = this.add.sprite(game.config.width / 1.85, (game.config.height / 9) * 3.7, 'L2Locked', 0).setInteractive();
             this.btn_score.displayHeight = game.config.height / 8;
             this.btn_score.displayWidth = game.config.width / 1.9;
         }
 
         //Button Help
-        if (localStorage.getItem('L2') == "C") {
+        if (localStorage.getItem('LEVEL:2') == "C") {
             this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
             this.btn_help.displayHeight = game.config.height / 8;
             this.btn_help.displayWidth = game.config.width / 2.1;
-        } else if (localStorage.getItem('L2') == null) {
+        } else if (localStorage.getItem('LEVEL:2') == null) {
             this.btn_help = this.add.sprite(game.config.width / 1.85, (game.config.height / 7.9) * 4.7, 'L3Locked', 0).setInteractive();
             this.btn_help.displayHeight = game.config.height / 8;
             this.btn_help.displayWidth = game.config.width / 1.9;
         }
 
         // Button exit
-        if (localStorage.getItem('L3') == "C") {
+        if (localStorage.getItem('LEVEL:3') == "C") {
             this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
             this.btn_leve4.displayHeight = game.config.height / 8;
             this.btn_leve4.displayWidth = game.config.width / 2.1;
-        } else if (localStorage.getItem('L3') == null) {
+        } else if (localStorage.getItem('LEVEL:3') == null) {
             this.btn_leve4 = this.add.sprite(game.config.width / 1.85, (game.config.height / 6.45) * 5, 'L4Locked', 0).setInteractive();
             this.btn_leve4.displayHeight = game.config.height / 8;
             this.btn_leve4.displayWidth = game.config.width / 1.9;
@@ -265,7 +171,7 @@ class SelectLevel extends Phaser.Scene {
             })
         });
 
-        if (localStorage.getItem('L1') == "C") {
+        if (localStorage.getItem('LEVEL:1') == "C") {
             this.btn_score.setInteractive().on('pointerdown', (pointer, localX, localY, event) => {
                 this.scene.transition({
                     target: "Level5",
@@ -275,7 +181,7 @@ class SelectLevel extends Phaser.Scene {
             });
         }
 
-        if (localStorage.getItem('L2') == "C") {
+        if (localStorage.getItem('LEVEL:2') == "C") {
             this.btn_help.setInteractive().on('pointerdown', (pointer, localX, localY, event) => {
                 this.scene.transition({
                     target: "Level3",
@@ -285,7 +191,7 @@ class SelectLevel extends Phaser.Scene {
             });
         }
 
-        if (localStorage.getItem('L3') == "C") {
+        if (localStorage.getItem('LEVEL:3') == "C") {
             this.btn_leve4.setInteractive().on('pointerdown', (pointer, localX, localY, event) => {
                 this.scene.transition({
                     target: "Level4",
@@ -327,7 +233,7 @@ class SelectLevel extends Phaser.Scene {
 
         switch (this.selected_button) {
             case "Play":
-                if (localStorage.getItem('L1') == "C") {
+                if (localStorage.getItem('LEVEL:1') == "C") {
                     this.btn_play.destroy();
                     //hover level1
                     this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
@@ -341,11 +247,12 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_score.displayWidth = game.config.width / 2;
 
                     this.selected_button = "ScoreScene"
+                    localStorage.setItem(gameOptions.currentLevel, 1);
                 }
 
                 break;
             case "ScoreScene":
-                if (localStorage.getItem('L2') == "C") {
+                if (localStorage.getItem('LEVEL:2') == "C") {
                     this.btn_score.destroy();
                     this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
                     this.btn_score.displayHeight = game.config.height / 8;
@@ -358,10 +265,11 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_help.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Help"
+                    localStorage.setItem(gameOptions.currentLevel, 2);
                 }
                 break;
             case "Help":
-                if (localStorage.getItem('L3') == "C") {
+                if (localStorage.getItem('LEVEL:3') == "C") {
                     this.btn_help.destroy();
                     this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
                     this.btn_help.displayHeight = game.config.height / 8;
@@ -378,6 +286,7 @@ class SelectLevel extends Phaser.Scene {
                     // this.btn_exit.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Level4"
+                    localStorage.setItem(gameOptions.currentLevel, 3);
                 }
                 break;
             case "Level4":
@@ -393,6 +302,7 @@ class SelectLevel extends Phaser.Scene {
                 this.btn_play.displayWidth = game.config.width / 2;
 
                 this.selected_button = "Play"
+                localStorage.setItem(gameOptions.currentLevel, 0);
                 break;
             default:
 
@@ -403,7 +313,7 @@ class SelectLevel extends Phaser.Scene {
 
         switch (this.selected_button) {
             case "Play":
-                if (localStorage.getItem('L3') == "C") {
+                if (localStorage.getItem('LEVEL:3') == "C") {
                     this.btn_play.destroy();
                     this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
                     this.btn_play.displayHeight = game.config.height / 8;
@@ -416,10 +326,11 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_leve4.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Level4"
+                    localStorage.setItem(gameOptions.currentLevel, 3);
                 }
                 break;
             case "Level4":
-                if (localStorage.getItem('L2') == "C") {
+                if (localStorage.getItem('LEVEL:2') == "C") {
                     this.btn_leve4.destroy();
                     this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
                     this.btn_leve4.displayHeight = game.config.height / 8;
@@ -432,10 +343,11 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_help.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Help"
+                    localStorage.setItem(gameOptions.currentLevel, 2);
                 }
                 break;
             case "ScoreScene":
-                if (localStorage.getItem('L1') == "C") {
+                if (localStorage.getItem('LEVEL:1') == "C") {
                     this.btn_score.destroy();
                     this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
                     this.btn_score.displayHeight = game.config.height / 8;
@@ -447,6 +359,7 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_play.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Play"
+                    localStorage.setItem(gameOptions.currentLevel, 0);
                 }
                 break;
             case "Help":
@@ -465,6 +378,7 @@ class SelectLevel extends Phaser.Scene {
                 // this.btn_score.displayWidth = game.config.width / 2.8;
 
                 this.selected_button = "ScoreScene"
+                localStorage.setItem(gameOptions.currentLevel, 1);
                 break;
             // case "Exit":
             //     this.btn_exit.destroy();
@@ -483,7 +397,7 @@ class SelectLevel extends Phaser.Scene {
         }
     }
 
-/*
+// call to selected scene
     callMenuButton() {
         switch (this.selectedLevel) {
             case 0:
@@ -498,7 +412,7 @@ class SelectLevel extends Phaser.Scene {
             case 1:
                 //console.log("Play SELECT");
                 this.scene.transition({
-                    target: 'Level2',
+                    target: 'Level1',
                     moveAbove: true,
                     duration: 300,
                 })
@@ -507,7 +421,7 @@ class SelectLevel extends Phaser.Scene {
             case 2:
                 //console.log("Play SELECT");
                 this.scene.transition({
-                    target: 'Level3',
+                    target: 'Level1',
                     moveAbove: true,
                     duration: 300,
                 })
@@ -516,7 +430,7 @@ class SelectLevel extends Phaser.Scene {
             case 3:
                 //console.log("Play SELECT");
                 this.scene.transition({
-                    target: 'Level4',
+                    target: 'Level1',
                     moveAbove: true,
                     duration: 300,
                 })
@@ -525,104 +439,13 @@ class SelectLevel extends Phaser.Scene {
             case 4:
                 //console.log("Play SELECT");
                 this.scene.transition({
-                    target: 'Level5',
+                    target: 'Level1',
                     moveAbove: true,
                     duration: 300,
                 })
                 // this.scene.start("Level5")
                 break;
-            case 5:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level6',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level6")
-                break;
-            case 6:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level7',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level7")
-                break;
-            case 7:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level8',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level8")
-                break;
-            case 8:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level9',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level9")
-                break;
-            case 9:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level10',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
-            case 10:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level11',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
-            case 11:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level12',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
-            case 12:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level13',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
-            case 13:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level14',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
-            case 14:
-                //console.log("Play SELECT");
-                this.scene.transition({
-                    target: 'Level15',
-                    moveAbove: true,
-                    duration: 300,
-                })
-                // this.scene.start("Level10")
-                break;
         }
     }
 
-    */
 }

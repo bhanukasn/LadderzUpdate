@@ -14,6 +14,7 @@ class Level1 extends Phaser.Scene {
         this.load.image("score", "assets/img/Score.png")
         this.load.spritesheet("hero", "assets/img/hero2.png", { frameWidth: 100, frameHeight: 100 });
         this.load.image("ladder", "assets/img/ladder2.png");
+        this.load.image("hole", "assets/img/hole.png");
         this.load.image("diamond", "assets/img/diamond.png");
         this.load.image("diamondparticle", "assets/img/diamondparticle.png");
         this.load.image("spike", "assets/img/spike.png");
@@ -31,6 +32,11 @@ class Level1 extends Phaser.Scene {
         this.collectedDiamonds = 0;
         this.canJump = true;
         this.isClimbing = false;
+        this.floorCount = 0;
+
+        //store game level
+        this.currentLevel = localStorage.getItem(gameOptions.currentLevel) == null ? 0 : localStorage.getItem(gameOptions.currentLevel);
+
         this.defineGroups();
 
         //background
@@ -55,10 +61,12 @@ class Level1 extends Phaser.Scene {
         this.diamondGroup = this.physics.add.group();
         this.ladderGroup = this.physics.add.group();
         this.spikeGroup = this.physics.add.group();
+        this.holeGroup = this.physics.add.group();
         this.gameGroup.push(this.floorGroup);
         this.gameGroup.push(this.diamondGroup);
         this.gameGroup.push(this.ladderGroup);
-        this.gameGroup.push(this.spikeGroup)
+        this.gameGroup.push(this.spikeGroup);
+        this.gameGroup.push(this.holeGroup);
     }
 
     drawLevel() {
@@ -69,6 +77,8 @@ class Level1 extends Phaser.Scene {
         this.ladderPool = [];
         this.diamondPool = [];
         this.spikePool = [];
+        this.holePool = [];
+
         while (this.highestFloorY > - 2 * gameOptions.floorGap) {
             //add floor
             this.addFloor(this.highestFloorY);
@@ -79,6 +89,7 @@ class Level1 extends Phaser.Scene {
             }
             this.highestFloorY -= gameOptions.floorGap;
             this.currentFloor++;
+
         }
         // this.highestFloorY += gameOptions.floorGap;
         this.currentFloor = 0;
@@ -87,12 +98,35 @@ class Level1 extends Phaser.Scene {
 
     //add floor
     addFloor(highestFloorY) {
+        this.floorCount++;
         var floor = this.physics.add.sprite(game.config.width / 2, highestFloorY, "floor");
         this.floorGroup.add(floor);
         floor.displayWidth = game.config.width;
         floor.displayHeight = 25;
         floor.body.immovable = true;
         floor.body.checkCollision.down = false;
+
+        // adding holes
+        if (this.currentLevel > 0 && this.floorCount % 2 == 0){
+            this.addHoles(highestFloorY);
+            // var holeXPosition = Phaser.Math.Between(0, game.config.width);
+            //
+            // var hole = this.physics.add.sprite(holeXPosition, highestFloorY, "hole");
+            // hole.displayHeight = 50;
+            // hole.displayWidth = 25;
+            // this.holeGroup.add(hole);
+        }
+
+    }
+
+    //add Holes
+    addHoles(highestFloorY){
+        var holeXPosition = Phaser.Math.Between(0, game.config.width);
+
+        var hole = this.physics.add.sprite(holeXPosition, highestFloorY, "hole");
+        hole.displayHeight = 50;
+        hole.displayWidth = 25;
+        this.holeGroup.add(hole);
     }
 
     //add Ladder
@@ -182,7 +216,8 @@ class Level1 extends Phaser.Scene {
         this.gameGroup.push(this.hero);
         this.hero.body.setCollideWorldBounds();
         this.hero.body.gravity.y = gameOptions.playerGravity;
-        this.hero.body.velocity.x = gameOptions.playerSpeed;
+        // this.hero.body.velocity.x = gameOptions.playerSpeed;
+        this.hero.body.velocity.x = gameLevels.arr[this.currentLevel].playerSpeed;
     }
 
     //tween
@@ -193,6 +228,7 @@ class Level1 extends Phaser.Scene {
         this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
         this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
         this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
+        this.holeGroup.getChildren().map(function (c) { c.body.velocity.y = 500 })
         setTimeout(() => {
             this._scrollStop();
         }, 400);
@@ -203,11 +239,13 @@ class Level1 extends Phaser.Scene {
         this.ladderGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
         this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
         this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
+        this.holeGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
 
         var floorState = [];
         var ladderState = [];
         var spikeState = [];
         var diamondState = [];
+        var holeState = [];
 
         this.floorGroup.getChildren().map((floor, index) => {
             floorState.push(floor.y);
@@ -219,23 +257,31 @@ class Level1 extends Phaser.Scene {
         this.ladderGroup.getChildren().map((ladder, index) => {
             ladderState.push(ladder.y);
             if (ladder.y > game.config.height) {
-                this.killFloor(ladder);
+                this.killLadder(ladder);
             }
         }, this);
 
         this.spikeGroup.getChildren().map((spike, index) => {
             spikeState.push(spike.y);
             if (spike.y > game.config.height) {
-                this.killFloor(spike);
+                this.killSpike(spike);
             }
         }, this);
 
         this.diamondGroup.getChildren().map((diamond, index) => {
             diamondState.push(diamond.y);
             if (diamond.y > game.config.height) {
-                this.killFloor(diamond);
+                this.killDiamond(diamond);
             }
         }, this);
+
+        this.holeGroup.getChildren().map((hole, index) => {
+            holeState.push(hole.y);
+            if (hole.y > game.config.height) {
+                this.killHole(hole);
+            }
+        }, this);
+
         this.addFloor(floorState[this.floorGroup.getChildren().length - 1] - gameOptions.floorGap)
         this.addLadder(ladderState[this.ladderGroup.getChildren().length - 1] - (gameOptions.floorGap + 50));
         this.addSpike(spikeState[this.spikeGroup.getChildren().length - 1] - (gameOptions.floorGap - 20));
@@ -259,6 +305,10 @@ class Level1 extends Phaser.Scene {
         spike.destroy();
         this.spikePool.push(spike);
     }
+    killHole(hole) {
+        hole.destroy();
+        this.holePool.push(hole);
+    }
 
     //handle hero jump
     handleTap() {
@@ -277,6 +327,7 @@ class Level1 extends Phaser.Scene {
             this.checkFloorCollision();
             this._heroRun();
             this.checkLadderCollision();
+            this.checkHoleCollision();
             // this.checkSpikeCollision();
         }
     }
@@ -290,12 +341,16 @@ class Level1 extends Phaser.Scene {
 
     _heroRun() {
         if (this.hero.x >= game.config.width - 30) {
-            this.hero.body.velocity.x = -gameOptions.playerSpeed;
+            // this.hero.body.velocity.x = -gameOptions.playerSpeed;
+            this.hero.body.velocity.x = -gameLevels.arr[this.currentLevel].playerSpeed;
+
             this.hero.scaleX = -1;
 
         } else if (this.hero.x <= 40) {
-            this.hero.body.velocity.x = gameOptions.playerSpeed;
-            this.hero.scaleX = 1;
+            // this.hero.body.velocity.x = gameOptions.playerSpeed;
+            this.hero.body.velocity.x = gameLevels.arr[this.currentLevel].playerSpeed;
+
+            this.hero.scaleX = 1;          
         }
     }
 
@@ -332,6 +387,20 @@ class Level1 extends Phaser.Scene {
             }
         }
     }
+
+    //check whether user hit a hole
+    checkHoleCollision() {
+        this.physics.overlap(this.hero, this.holeGroup, () => {
+            this.gameOver = true;
+            this.hero.body.velocity.x = Phaser.Math.Between(-20, 20);
+            this.hero.body.velocity.y = -gameOptions.playerJump;
+            this.hero.body.gravity.y = gameOptions.playerGravity;
+            this.currentLevel = 0;
+            localStorage.setItem(gameOptions.currentLevel, 0);
+            setTimeout(() => { this.scene.start("GameOver"); }, 500);
+        }, null, this);
+    }
+
     checkSpikeCollision() {
         this.physics.overlap(this.hero, this.spikeGroup, () => {
             this.gameOver = true;
@@ -349,6 +418,25 @@ class Level1 extends Phaser.Scene {
         this.scoreText.setText('SCORE:' + this.score);
     }
 
+    //check level scores
+    checkGameWin() {
+            score = this.score;
+            localStorage.setItem(gameLevels.arr[this.currentLevel].levelNumber, "C");
+            this.currentLevel++;
+
+            console.log(this.currentLevel)
+            localStorage.setItem(gameOptions.currentLevel, this.currentLevel);
+            this.scene.stop();
+            this.scene.start('LevelCompleted');
+            // if (this.currentLevel == 2) {
+            //     this.scene.start('Level3');
+            // } else {
+            //     localStorage.setItem(gameOptions.currentLevel, this.currentLevel);
+            //     this.scene.restart("Level1");
+            // }
+    }
+
+
 }
 
 //Object for game level attributes
@@ -362,7 +450,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 0,
             turtleSpeed: 0,
-            winingScore: 250
+            winingScore: 50
         },
         {
             score: 0,
@@ -372,7 +460,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 0,
             turtleSpeed: 0,
-            winingScore: 250
+            winingScore: 50
         },
         {
             score: 0,
@@ -382,7 +470,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 1,
             turtleSpeed: 0,
-            winingScore: 250
+            winingScore: 50
         },
         {
             score: 0,
@@ -392,7 +480,7 @@ gameLevels = {
             diamondRatio: 2,
             turtleRatio: 1,
             turtleSpeed: 50,
-            winingScore: 250
+            winingScore: 50
         },
         {
             score: 0,
@@ -402,7 +490,7 @@ gameLevels = {
             diamondRatio: 2,
             turtleRatio: 1,
             turtleSpeed: 50,
-            winingScore: 250
+            winingScore: 50
         }
     ],
 
