@@ -17,7 +17,8 @@ var gameOptions = {
     skyColor: 0xaaeaff,
     safeRadius: 100,
     localStorageName: "climbgame",
-    versionNumber: "1.0"
+    versionNumber: "1.0",
+    currentLevel: "currentlevel",
 }
 
 // constants used to pass "LEFT" and "RIGHT" as arguments rather than "0" and "1"
