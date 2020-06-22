@@ -16,7 +16,7 @@ class Level1 extends Phaser.Scene {
         this.load.spritesheet("heroRunLeft", "assets/img/heroleft.png", { frameWidth: 100, frameHeight: 100 });
         this.load.image("ladder", "assets/img/ladder2.png");
         this.load.image("hole", "assets/img/hole.png");
-        this.load.image("diamond", "assets/img/diamond.png");
+        this.load.image("diamond", "assets/img/Diamond.png");
         this.load.image("diamondparticle", "assets/img/diamondparticle.png");
         this.load.image("CoinBox", "assets/img/CoinBox.png");
         this.load.image("Trophy", "assets/img/Trophy.png");
