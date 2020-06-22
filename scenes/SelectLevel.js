@@ -310,7 +310,7 @@ class SelectLevel extends Phaser.Scene {
                 this.btn_leve5.displayWidth = game.config.width / 2;
 
                 this.selected_button = "Level5"
-                localStorage.setItem(gameOptions.currentLevel, 0);
+                localStorage.setItem(gameOptions.currentLevel, 4);
                 break;
             case "Level5":
 
@@ -349,7 +349,7 @@ class SelectLevel extends Phaser.Scene {
                     this.btn_leve5.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Level5"
-                    localStorage.setItem(gameOptions.currentLevel, 3);
+                    localStorage.setItem(gameOptions.currentLevel, 4);
                 }
                 break;
             case "Level5":
@@ -485,7 +485,7 @@ class SelectLevel extends Phaser.Scene {
                 })
                 // this.scene.start("Level5")
                 break;
-            case 4:
+            case 5:
                 //console.log("Play SELECT");
                 this.scene.transition({
                     target: 'Level1',
