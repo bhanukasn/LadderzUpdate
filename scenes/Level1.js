@@ -57,7 +57,7 @@ class Level1 extends Phaser.Scene {
         this.canJump = true;
         this.isClimbing = false;
         this.floorCount = 0;
-        this.ladderToClimb = {}
+        this.ladderToClimb = 0;
 
         //store game level
         this.currentLevel = localStorage.getItem(gameOptions.currentLevel) == null ? 0 : localStorage.getItem(gameOptions.currentLevel);
@@ -303,6 +303,7 @@ class Level1 extends Phaser.Scene {
         this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 200 })
         this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 200 })
         this.holeGroup.getChildren().map(function (c) { c.body.velocity.y = 200 })
+        this.hero.body.velocity.y = 2000
         setTimeout(() => {
             this._scrollStop();
         }, 1200);
@@ -314,6 +315,7 @@ class Level1 extends Phaser.Scene {
         this.spikeGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
         this.diamondGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
         this.holeGroup.getChildren().map(function (c) { c.body.velocity.y = 0 })
+        this.hero.body.velocity.y = 0
 
         var floorState = [];
         var ladderState = [];
@@ -435,10 +437,9 @@ class Level1 extends Phaser.Scene {
                 this.ladderGroup.getChildren().forEach(ladder => {
                     if (Math.abs(this.hero.x - ladder.x) < 10) {
                         if (ladder.y >= 0) {
-                            this.ladderToClimb = ladder;
-                        } else if (ladder.y == 400) {
-                            this.ladderToClimb.y = 400;
+                            this.ladderToClimb = ladder.y;
                         }
+                        console.log(ladder.y)
                         this.hero.body.velocity.x = 0;
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
@@ -446,7 +447,8 @@ class Level1 extends Phaser.Scene {
                     }
                 });
             }, null, this);
-        } else if (this.hero.y < (this.ladderToClimb.y - 90) && this.isClimbing == true && Math.abs(this.hero.x - this.ladderToClimb.x) < 10) {
+        } else if (this.hero.y < (this.ladderToClimb - 90) && this.isClimbing == true) {
+            console.log('he he')
             this.hero.body.gravity.y = gameOptions.playerGravity;
             this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
             if (this.hero.body.velocity.x < 0) {
@@ -535,7 +537,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 0,
             turtleSpeed: 0,
-            winingScore: 50
+            winingScore: 120
         },
         {
             score: 0,
@@ -545,7 +547,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 0,
             turtleSpeed: 0,
-            winingScore: 100
+            winingScore: 200
         },
         {
             score: 0,
