@@ -15,7 +15,7 @@ var gameOptions = {
     diamondRatio: 2,
     doubleSpikeRatio: 2,
     skyColor: 0xaaeaff,
-    safeRadius: 100,
+    safeRadius: 200,
     localStorageName: "climbgame",
     versionNumber: "1.0",
     currentLevel: "currentlevel",
