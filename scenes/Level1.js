@@ -124,7 +124,7 @@ class Level1 extends Phaser.Scene {
         var holeXPosition = Phaser.Math.Between(0, game.config.width);
 
         var hole = this.physics.add.sprite(holeXPosition, highestFloorY, "hole");
-        hole.displayHeight = 50;
+        hole.displayHeight = 30;
         hole.displayWidth = 25;
         this.holeGroup.add(hole);
     }

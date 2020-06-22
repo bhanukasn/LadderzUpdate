@@ -314,7 +314,7 @@ class Menu extends Phaser.Scene {
                 //console.log("Play SELECT");
                 localStorage.setItem(gameOptions.currentLevel, 0);
                 this.scene.transition({
-                    target: 'Level1',
+                    target: 'SelectLevel',
                     moveAbove: true,
                     duration: 300,
                 })
