@@ -111,7 +111,6 @@ class Level1 extends Phaser.Scene {
             this.addFloor(this.highestFloorY);
             if (this.currentFloor > 0) {
                 this.addLadder(this.highestFloorY);
-                console.log(gameLevels.arr[this.currentLevel].levelNumber != 'LEVEL:1');
                 if (gameLevels.arr[this.currentLevel].levelNumber != 'LEVEL:1') {
                     this.addSpike(this.highestFloorY);
                 }
@@ -164,7 +163,6 @@ class Level1 extends Phaser.Scene {
     //add Ladder
     addLadder(highestFloorY) {
         var ladderXPosition = Phaser.Math.Between(50, game.config.width - 50);
-        console.log(ladderXPosition)
         var ladder = this.physics.add.sprite(ladderXPosition, highestFloorY + 50, "ladder");
         this.ladderGroup.add(ladder);
         ladder.setSize(ladder.displayWidth, ladder.displayHeight - 10, true)
@@ -438,7 +436,7 @@ class Level1 extends Phaser.Scene {
                     if (Math.abs(this.hero.x - ladder.x) < 10) {
                         if (ladder.y >= 0) {
                             this.ladderToClimb = ladder;
-                        } else if(ladder.y == 400) {
+                        } else if (ladder.y == 400) {
                             this.ladderToClimb.y = 400;
                         }
                         this.hero.body.velocity.x = 0;
@@ -446,28 +444,25 @@ class Level1 extends Phaser.Scene {
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
                     }
-                    // console.log(this.ladderToClimb.y+'===='+ladder.y)
                 });
             }, null, this);
-        } else {
-            if (this.hero.y < (this.ladderToClimb.y - 90)) {
-                this.hero.body.gravity.y = gameOptions.playerGravity;
-                this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
-                if (this.hero.body.velocity.x < 0) {
-                    this.hero.play('heroLeft');
-                } else {
-                    this.hero.play('hero22');
-                }
-                this.hero.body.velocity.y = 0;
-                this.updateScore(ladderScore);
-                this.isClimbing = false;
-                setTimeout(() => {
-                    this._scrollStart();
-                    if (this.score >= gameLevels.arr[this.currentLevel].winingScore) {
-                        this.checkGameWin();
-                    }
-                }, 500);
+        } else if (this.hero.y < (this.ladderToClimb.y - 90) && this.isClimbing == true && Math.abs(this.hero.x - this.ladderToClimb.x) < 10) {
+            this.hero.body.gravity.y = gameOptions.playerGravity;
+            this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
+            if (this.hero.body.velocity.x < 0) {
+                this.hero.play('heroLeft');
+            } else {
+                this.hero.play('hero22');
             }
+            this.hero.body.velocity.y = 0;
+            this.updateScore(ladderScore);
+            this.isClimbing = false;
+            setTimeout(() => {
+                this._scrollStart();
+                if (this.score >= gameLevels.arr[this.currentLevel].winingScore) {
+                    this.checkGameWin();
+                }
+            }, 500);
         }
     }
 
@@ -515,7 +510,6 @@ class Level1 extends Phaser.Scene {
         localStorage.setItem(gameLevels.arr[this.currentLevel].levelNumber, "C");
         this.currentLevel++;
 
-        console.log(this.currentLevel)
         localStorage.setItem(gameOptions.currentLevel, this.currentLevel);
         // this.scene.stop();
         this.scene.start('LevelCompleted');

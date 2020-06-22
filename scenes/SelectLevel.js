@@ -18,6 +18,7 @@ class SelectLevel extends Phaser.Scene {
         this.load.image("btn_Leve2", "assets/img/Level2.png");
         this.load.image("btn_Level3", "assets/img/Level3.png");
         this.load.image("btn_Level4", "assets/img/Level4.png");
+        this.load.image("btn_Level5", "assets/img/Level5.png");
 
         this.load.image("bgSL", "assets/img/LevelsBackground.png");
         this.load.image("btn_Level1", "assets/img/Level1.png");
@@ -25,6 +26,7 @@ class SelectLevel extends Phaser.Scene {
         this.load.image('L2Locked', 'assets/img/Level2Locked.png');
         this.load.image('L3Locked', 'assets/img/Level3Locked.png');
         this.load.image('L4Locked', 'assets/img/Level4Locked.png');
+        this.load.image('L5Locked', 'assets/img/Level5Locked.png');
     }
 
     create() {
@@ -113,41 +115,51 @@ class SelectLevel extends Phaser.Scene {
         // this.text_click_to_play.setFontSize('80px');
 
         // Button PLay
-        this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-        this.btn_play.displayHeight = game.config.height / 7.5;
+        this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 15) * 2.8, 'btn_Level1', 0).setInteractive();
+        this.btn_play.displayHeight = game.config.height / 8;
         this.btn_play.displayWidth = game.config.width / 2;
 
         // Button Score
         if (localStorage.getItem('LEVEL:1') == "C") {
-            this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
-            this.btn_score.displayHeight = game.config.height / 8;
+            this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'btn_Leve2', 0).setInteractive();
+            this.btn_score.displayHeight = game.config.height / 9.5;
             this.btn_score.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:1') == null) {
-            this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'L2Locked', 0).setInteractive();
-            this.btn_score.displayHeight = game.config.height / 7;
+            this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'L2Locked', 0).setInteractive();
+            this.btn_score.displayHeight = game.config.height / 9.5;
             this.btn_score.displayWidth = game.config.width / 1.9;
         }
 
         //Button Help
         if (localStorage.getItem('LEVEL:2') == "C") {
-            this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-            this.btn_help.displayHeight = game.config.height / 7;
+            this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'btn_Level3', 0).setInteractive();
+            this.btn_help.displayHeight = game.config.height / 9.5;
             this.btn_help.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:2') == null) {
-            this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'L3Locked', 0).setInteractive();
-            this.btn_help.displayHeight = game.config.height / 7;
+            this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'L3Locked', 0).setInteractive();
+            this.btn_help.displayHeight = game.config.height / 9.5;
             this.btn_help.displayWidth = game.config.width / 1.9;
         }
 
         // Button exit
         if (localStorage.getItem('LEVEL:3') == "C") {
-            this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-            this.btn_leve4.displayHeight = game.config.height / 7;
+            this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'btn_Level4', 0).setInteractive();
+            this.btn_leve4.displayHeight = game.config.height / 9.5;
             this.btn_leve4.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:3') == null) {
-            this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'L4Locked', 0).setInteractive();
-            this.btn_leve4.displayHeight = game.config.height / 7;
+            this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'L4Locked', 0).setInteractive();
+            this.btn_leve4.displayHeight = game.config.height / 9.5;
             this.btn_leve4.displayWidth = game.config.width / 1.9;
+        }
+
+        if (localStorage.getItem('LEVEL:4') == "C") {
+            this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_Level5', 0).setInteractive();
+            this.btn_leve5.displayHeight = game.config.height / 9.5;
+            this.btn_leve5.displayWidth = game.config.width / 2.1;
+        } else if (localStorage.getItem('LEVEL:4') == null) {
+            this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'L5Locked', 0).setInteractive();
+            this.btn_leve5.displayHeight = game.config.height / 9.5;
+            this.btn_leve5.displayWidth = game.config.width / 1.9;
         }
 
         this.back = this.add.text(game.config.width - game.config.width * 10 / 100, game.config.height - game.config.height * 5 / 100, "Back").setFontSize(30).setFontFamily("Arial").setOrigin(0.5);
@@ -236,14 +248,14 @@ class SelectLevel extends Phaser.Scene {
                 if (localStorage.getItem('LEVEL:1') == "C") {
                     this.btn_play.destroy();
                     //hover level1
-                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-                    this.btn_play.displayHeight = game.config.height / 8;
+                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 15) * 2.8, 'btn_Level1', 0).setInteractive();
+                    this.btn_play.displayHeight = game.config.height / 9.5;
                     this.btn_play.displayWidth = game.config.width / 2.1;
 
                     this.btn_score.destroy();
                     //leve2 hover
-                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
-                    this.btn_score.displayHeight = game.config.height / 7;
+                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'btn_Leve2', 0).setInteractive();
+                    this.btn_score.displayHeight = game.config.height / 8;
                     this.btn_score.displayWidth = game.config.width / 2;
 
                     this.selected_button = "ScoreScene"
@@ -254,14 +266,14 @@ class SelectLevel extends Phaser.Scene {
             case "ScoreScene":
                 if (localStorage.getItem('LEVEL:2') == "C") {
                     this.btn_score.destroy();
-                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
-                    this.btn_score.displayHeight = game.config.height / 8;
+                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'btn_Leve2', 0).setInteractive();
+                    this.btn_score.displayHeight = game.config.height / 9.5;
                     this.btn_score.displayWidth = game.config.width / 2.1;
 
                     this.btn_help.destroy();
                     //leve3 hover
-                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-                    this.btn_help.displayHeight = game.config.height / 7;
+                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'btn_Level3', 0).setInteractive();
+                    this.btn_help.displayHeight = game.config.height / 8;
                     this.btn_help.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Help"
@@ -271,19 +283,15 @@ class SelectLevel extends Phaser.Scene {
             case "Help":
                 if (localStorage.getItem('LEVEL:3') == "C") {
                     this.btn_help.destroy();
-                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-                    this.btn_help.displayHeight = game.config.height / 8;
+                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'btn_Level3', 0).setInteractive();
+                    this.btn_help.displayHeight = game.config.height / 9.5;
                     this.btn_help.displayWidth = game.config.width / 2.1;
 
                     this.btn_leve4.destroy();
                     //level 4 hover
-                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-                    this.btn_leve4.displayHeight = game.config.height / 7;
+                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'btn_Level4', 0).setInteractive();
+                    this.btn_leve4.displayHeight = game.config.height / 8;
                     this.btn_leve4.displayWidth = game.config.width / 2;
-                    // this.btn_exit.destroy();
-                    // this.btn_exit = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_exit_hover', 0).setInteractive();
-                    // this.btn_exit.displayHeight = game.config.height / 9;
-                    // this.btn_exit.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Level4"
                     localStorage.setItem(gameOptions.currentLevel, 3);
@@ -292,13 +300,28 @@ class SelectLevel extends Phaser.Scene {
             case "Level4":
 
                 this.btn_leve4.destroy();
-                this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-                this.btn_leve4.displayHeight = game.config.height / 8;
+                this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'btn_Level4', 0).setInteractive();
+                this.btn_leve4.displayHeight = game.config.height / 9.5;
                 this.btn_leve4.displayWidth = game.config.width / 2.1;
 
+                this.btn_leve5.destroy();
+                this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_Level5', 0).setInteractive();
+                this.btn_leve5.displayHeight = game.config.height / 8;
+                this.btn_leve5.displayWidth = game.config.width / 2;
+
+                this.selected_button = "Level5"
+                localStorage.setItem(gameOptions.currentLevel, 0);
+                break;
+            case "Level5":
+
+                this.btn_leve5.destroy();
+                this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_Level5', 0).setInteractive();
+                this.btn_leve5.displayHeight = game.config.height / 9.5;
+                this.btn_leve5.displayWidth = game.config.width / 2.1;
+
                 this.btn_play.destroy();
-                this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-                this.btn_play.displayHeight = game.config.height / 7;
+                this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 15) * 2.8, 'btn_Level1', 0).setInteractive();
+                this.btn_play.displayHeight = game.config.height / 8;
                 this.btn_play.displayWidth = game.config.width / 2;
 
                 this.selected_button = "Play"
@@ -313,16 +336,33 @@ class SelectLevel extends Phaser.Scene {
 
         switch (this.selected_button) {
             case "Play":
-                if (localStorage.getItem('LEVEL:3') == "C") {
+                if (localStorage.getItem('LEVEL:4') == "C") {
                     this.btn_play.destroy();
-                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-                    this.btn_play.displayHeight = game.config.height / 8;
+                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 15) * 2.8, 'btn_Level1', 0).setInteractive();
+                    this.btn_play.displayHeight = game.config.height / 9.5;
                     this.btn_play.displayWidth = game.config.width / 2.1;
+
+                    this.btn_leve5.destroy();
+                    //level 4 hover
+                    this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_Level5', 0).setInteractive();
+                    this.btn_leve5.displayHeight = game.config.height / 8;
+                    this.btn_leve5.displayWidth = game.config.width / 2;
+
+                    this.selected_button = "Level5"
+                    localStorage.setItem(gameOptions.currentLevel, 3);
+                }
+                break;
+            case "Level5":
+                if (localStorage.getItem('LEVEL:3') == "C") {
+                    this.btn_leve5.destroy();
+                    this.btn_leve5 = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 5, 'btn_Level5', 0).setInteractive();
+                    this.btn_leve5.displayHeight = game.config.height / 9.5;
+                    this.btn_leve5.displayWidth = game.config.width / 2.1;
 
                     this.btn_leve4.destroy();
                     //level 4 hover
-                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-                    this.btn_leve4.displayHeight = game.config.height / 7;
+                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'btn_Level4', 0).setInteractive();
+                    this.btn_leve4.displayHeight = game.config.height / 8;
                     this.btn_leve4.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Level4"
@@ -332,14 +372,14 @@ class SelectLevel extends Phaser.Scene {
             case "Level4":
                 if (localStorage.getItem('LEVEL:2') == "C") {
                     this.btn_leve4.destroy();
-                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-                    this.btn_leve4.displayHeight = game.config.height / 8;
+                    this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 7.2) * 4.9, 'btn_Level4', 0).setInteractive();
+                    this.btn_leve4.displayHeight = game.config.height / 9.5;
                     this.btn_leve4.displayWidth = game.config.width / 2.1;
 
                     this.btn_help.destroy();
                     //level3 hover
-                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-                    this.btn_help.displayHeight = game.config.height / 7;
+                    this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'btn_Level3', 0).setInteractive();
+                    this.btn_help.displayHeight = game.config.height / 8;
                     this.btn_help.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Help"
@@ -349,13 +389,13 @@ class SelectLevel extends Phaser.Scene {
             case "ScoreScene":
                 if (localStorage.getItem('LEVEL:1') == "C") {
                     this.btn_score.destroy();
-                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
-                    this.btn_score.displayHeight = game.config.height / 8;
+                    this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'btn_Leve2', 0).setInteractive();
+                    this.btn_score.displayHeight = game.config.height / 9.5;
                     this.btn_score.displayWidth = game.config.width / 2.1;
 
                     this.btn_play.destroy();
-                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-                    this.btn_play.displayHeight = game.config.height / 7;
+                    this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 15) * 2.8, 'btn_Level1', 0).setInteractive();
+                    this.btn_play.displayHeight = game.config.height / 8;
                     this.btn_play.displayWidth = game.config.width / 2;
 
                     this.selected_button = "Play"
@@ -364,14 +404,14 @@ class SelectLevel extends Phaser.Scene {
                 break;
             case "Help":
                 this.btn_help.destroy();
-                this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-                this.btn_help.displayHeight = game.config.height / 8;
+                this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 4.6, 'btn_Level3', 0).setInteractive();
+                this.btn_help.displayHeight = game.config.height / 9.5;
                 this.btn_help.displayWidth = game.config.width / 2.1;
 
                 this.btn_score.destroy();
                 //leve2 hover
-                this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'btn_Leve2', 0).setInteractive();
-                this.btn_score.displayHeight = game.config.height / 7;
+                this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 10.5) * 3.7, 'btn_Leve2', 0).setInteractive();
+                this.btn_score.displayHeight = game.config.height / 8;
                 this.btn_score.displayWidth = game.config.width / 2;
                 // this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 6) * 3.7, 'btn_score_hover', 0).setInteractive();
                 // this.btn_score.displayHeight = game.config.height / 8.9;
@@ -397,7 +437,7 @@ class SelectLevel extends Phaser.Scene {
         }
     }
 
-// call to selected scene
+    // call to selected scene
     callMenuButton() {
         switch (this.selectedLevel) {
             case 0:
@@ -435,6 +475,15 @@ class SelectLevel extends Phaser.Scene {
                     duration: 300,
                 })
                 // this.scene.start("Level4")
+                break;
+            case 4:
+                //console.log("Play SELECT");
+                this.scene.transition({
+                    target: 'Level1',
+                    moveAbove: true,
+                    duration: 300,
+                })
+                // this.scene.start("Level5")
                 break;
             case 4:
                 //console.log("Play SELECT");
