@@ -399,7 +399,9 @@ class Level1 extends Phaser.Scene {
                         this.isClimbing = true;
                     }
                 });
-
+                if (this.score >= gameLevels.arr[this.currentLevel].winingScore) {
+                    this.checkGameWin();
+                }
             }, null, this);
         } else {
             if (this.hero.y < (this.ladderToClimb.y - 90)) {
