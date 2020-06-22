@@ -67,9 +67,32 @@ class LevelCompleted extends Phaser.Scene {
         //     }
         // })
 
+
         this.image = this.add.image(game.config.width / 2, game.config.height / 2, 'bglevelpassed');
         this.image.displayHeight = game.config.height;
         this.image.displayWidth = game.config.width;
+
+        this.FinalScore = this.add.text(game.config.width / 1.6, game.config.width / 1.65, score, { fontSize: '40px', fill: '#FFF' });
+
+        this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.45, '' + localStorage.getItem('BBest Score'), { fontSize: '40px', fill: '#FFF' });
+
+        if (localStorage.getItem('BBest Score') === null) {
+            this.bestScore.setText(0);
+        } else {
+            this.bestScore.setText(localStorage.getItem('BBest Score'));
+        }
+
+        if (score > localStorage.getItem('BBest Score')) {
+            localStorage.setItem('BThird Best Score', localStorage.getItem('BSecond Best Score'));
+            localStorage.setItem('BSecond Best Score', localStorage.getItem('BBest Score'));
+            localStorage.setItem('BBest Score', score);
+            this.bestScore.setText(localStorage.getItem('BBest Score'));
+        } else if ((localStorage.getItem('BBest Score') > score && score >= localStorage.getItem('BSecond Best Score')) || localStorage.getItem('BSecond Best Score') == 'null') {
+            localStorage.setItem('BThird Best Score', localStorage.getItem('BSecond Best Score'));
+            localStorage.setItem('BSecond Best Score', score);
+        } else if ((localStorage.getItem('BSecond Best Score') > score && score >= localStorage.getItem('BThird Best Score')) || localStorage.getItem('BThird Best Score') == 'null') {
+            localStorage.setItem('BThird Best Score', score);
+        }
 
 
         this.input.keyboard.on('keyup', function (e) {
@@ -99,9 +122,6 @@ class LevelCompleted extends Phaser.Scene {
         //this.gameOver = this.add.text(game.config.width / 4, game.config.height / 2, 'GAME OVER', { fontSize: '80px', fill: '#FFF' });
 
         //===============================
-        this.FinalScore = this.add.text(game.config.width / 1.6, game.config.width / 1.85, score, { fontSize: '40px', fill: '#FFF' });
-
-        this.bestScore = this.add.text(game.config.width / 1.6, game.config.width / 1.6, '' + localStorage.getItem('LG Best Score'), { fontSize: '40px', fill: '#FFF' });
 
         //==================================
 
@@ -128,6 +148,11 @@ class LevelCompleted extends Phaser.Scene {
             localStorage.setItem('LG Second Best Score', localStorage.getItem('LG Best Score'));
             localStorage.setItem('LG Best Score', score);
             this.bestScore.setText(localStorage.getItem('LG Best Score'));
+        } else if ((localStorage.getItem('LG Best Score') > score && score >= localStorage.getItem('LG Second Best Score')) || localStorage.getItem('LG Second Best Score') == 'null') {
+            localStorage.setItem('LG Third Best Score', localStorage.getItem('LG Second Best Score'));
+            localStorage.setItem('LG Second Best Score', score);
+        } else if ((localStorage.getItem('LG Second Best Score') > score && score >= localStorage.getItem('LG Third Best Score')) || localStorage.getItem('LG Third Best Score') == 'null') {
+            localStorage.setItem('LG Third Best Score', score);
         }
 
         // Click to play text

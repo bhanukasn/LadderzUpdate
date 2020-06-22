@@ -10,7 +10,7 @@ var gameOptions = {
     floorGap: 250,
     playerGravity: 3000,
     playerSpeed: 150,
-    climbSpeed: 350,
+    climbSpeed: 250,
     playerJump: 900,
     diamondRatio: 2,
     doubleSpikeRatio: 2,
@@ -57,7 +57,7 @@ window.onload = function () {
         physics: {
             default: 'arcade',
             arcade: {
-                debug: true,
+                debug: false,
                 gravity: {
                     y: 0 //the game gravity
                 }

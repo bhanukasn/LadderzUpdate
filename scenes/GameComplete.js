@@ -45,9 +45,21 @@ class GameComplete extends Phaser.Scene {
         this.image.displayHeight = game.config.height;
         this.image.displayWidth = game.config.width;
 
-       
-         //kaiads
-         getKaiAd({
+        if (score > localStorage.getItem('LG Best Score')) {
+            localStorage.setItem('LG Third Best Score', localStorage.getItem('LG Second Best Score'));
+            localStorage.setItem('LG Second Best Score', localStorage.getItem('LG Best Score'));
+            localStorage.setItem('LG Best Score', score);
+            this.bestScore.setText(localStorage.getItem('LG Best Score'));
+        } else if ((localStorage.getItem('LG Best Score') > score && score >= localStorage.getItem('LG Second Best Score')) || localStorage.getItem('LG Second Best Score') == 'null') {
+            localStorage.setItem('LG Third Best Score', localStorage.getItem('LG Second Best Score'));
+            localStorage.setItem('LG Second Best Score', score);
+        } else if ((localStorage.getItem('LG Second Best Score') > score && score >= localStorage.getItem('LG Third Best Score')) || localStorage.getItem('LG Third Best Score') == 'null') {
+            localStorage.setItem('LG Third Best Score', score);
+        }
+
+
+        //kaiads
+        getKaiAd({
             publisher: 'ca24f2d0-de89-4c1a-80c4-51e14d317000',
             app: 'Knife shooter',
             slot: 'knife shooter',

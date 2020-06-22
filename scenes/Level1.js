@@ -14,6 +14,7 @@ class Level1 extends Phaser.Scene {
         this.load.image("score", "assets/img/Score.png")
         this.load.spritesheet("hero", "assets/img/hero2.png", { frameWidth: 100, frameHeight: 100 });
         this.load.spritesheet("heroRunLeft", "assets/img/heroleft.png", { frameWidth: 100, frameHeight: 100 });
+        this.load.spritesheet("hepo", "assets/img/hepo.png", { frameWidth: 60, frameHeight: 38 });
         this.load.image("ladder", "assets/img/ladder2.png");
         this.load.image("hole", "assets/img/hole.png");
         this.load.image("diamond", "assets/img/Diamond.png");
@@ -49,7 +50,7 @@ class Level1 extends Phaser.Scene {
 
         }, this);
         //
-        this.score = 0;
+        this.score = score;
         this.savedData = localStorage.getItem(gameOptions.localStorageName) == null ? { score: 0 } : JSON.parse(localStorage.getItem(gameOptions.localStorageName));
         this.gameOver = false;
         this.reachedFloor = 0;
@@ -74,11 +75,11 @@ class Level1 extends Phaser.Scene {
         this.handleTap();
 
         //score button
-        this.score_btn = this.add.image(game.config.width / 5, game.config.height / 14 + 5, 'score');
-        this.score_btn.displayHeight = game.config.height / 10;
-        this.score_btn.displayWidth = game.config.width / 2.6;
+        // this.score_btn = this.add.image(game.config.width / 5, game.config.height / 14 + 5, 'score');
+        // this.score_btn.displayHeight = game.config.height / 10;
+        // this.score_btn.displayWidth = game.config.width / 2.6;
         this.scoreText = this.add.text(game.config.width / 16, game.config.height / 19, "SCORE:" + this.score, { fontSize: '35px', fill: '#FFF' });
-        this.score_btn.setDepth(1);
+        // this.score_btn.setDepth(1);
         this.scoreText.setDepth(1);
     }
 
@@ -113,8 +114,10 @@ class Level1 extends Phaser.Scene {
                 this.addLadder(this.highestFloorY);
                 console.log(gameLevels.arr[this.currentLevel].levelNumber != 'LEVEL:1');
                 if (gameLevels.arr[this.currentLevel].levelNumber != 'LEVEL:1') {
-                    this.addDiamond(this.highestFloorY);
                     this.addSpike(this.highestFloorY);
+                }
+                if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:4' || gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:5') {
+                    this.addDiamond(this.highestFloorY);
                 }
             }
             this.highestFloorY -= gameOptions.floorGap;
@@ -180,12 +183,10 @@ class Level1 extends Phaser.Scene {
         if (Phaser.Math.Between(0, gameOptions.diamondRatio) != 0) {
             var diamondX = Phaser.Math.Between(50, game.config.width - 50);
 
-            if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:2') {
+            if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:4') {
                 var diamond = this.physics.add.sprite(diamondX, highestFloorY - gameOptions.floorGap / 2, "diamond");
-            } else if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:3') {
+            } else if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:5') {
                 var diamond = this.physics.add.sprite(diamondX, highestFloorY - gameOptions.floorGap / 2, "CoinBox");
-            } else if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:4') {
-                var diamond = this.physics.add.sprite(diamondX, highestFloorY - gameOptions.floorGap / 2, "Trophy");
             }
             diamond.displayWidth = 30;
             diamond.displayHeight = 30;
@@ -203,8 +204,39 @@ class Level1 extends Phaser.Scene {
         for (var i = 1; i <= spick; i++) {
             var spikeXPosition = this.findSpikePosition();
             if (spikeXPosition) {
-                var spike = this.physics.add.sprite(spikeXPosition, highestFloorY - 10, "hole");
-                spike.setSize(10, 20, true)
+                if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:2') {
+                    var spike = this.physics.add.sprite(spikeXPosition, highestFloorY - 10, "hole");
+                } else if (gameLevels.arr[this.currentLevel].levelNumber == 'LEVEL:3') {
+                    var spike = this.physics.add.sprite(spikeXPosition, highestFloorY - 10, 'hepo');
+                    this.anims.create({
+                        key: 'heporun',
+                        repeat: -1,
+                        frameRate: 20,
+                        frames: this.anims.generateFrameNames('hepo', { start: 1, end: 24 })
+                    });
+
+                    spike.play('heporun');
+                } else {
+                    var spike = this.physics.add.sprite(spikeXPosition, highestFloorY - 10, 'hepo');
+                    this.anims.create({
+                        key: 'heporun',
+                        repeat: -1,
+                        frameRate: 20,
+                        frames: this.anims.generateFrameNames('hepo', { start: 1, end: 24 })
+                    });
+
+                    spike.play('heporun');
+                    this.tweens.add({
+                        targets: spike,
+                        x: 50,
+                        duration: 3000,
+                        ease: 'Power2',
+                        yoyo: true,
+                        repeat: -1,
+                        delay: 1000
+                    });
+                }
+                spike.setSize(10, 20, true);
                 this.spikeGroup.add(spike);
             }
         }
@@ -377,6 +409,7 @@ class Level1 extends Phaser.Scene {
             this.checkLadderCollision();
             this.checkHoleCollision();
             this.checkSpikeCollision();
+            this.checkDiamondCollision();
         }
     }
 
@@ -414,9 +447,6 @@ class Level1 extends Phaser.Scene {
                         this.isClimbing = true;
                     }
                 });
-                if (this.score >= gameLevels.arr[this.currentLevel].winingScore) {
-                    this.checkGameWin();
-                }
             }, null, this);
         } else {
             if (this.hero.y < (this.ladderToClimb.y - 90)) {
@@ -433,6 +463,9 @@ class Level1 extends Phaser.Scene {
                 this.isClimbing = false;
                 setTimeout(() => {
                     this._scrollStart();
+                    if (this.score >= gameLevels.arr[this.currentLevel].winingScore) {
+                        this.checkGameWin();
+                    }
                 }, 500);
             }
         }
@@ -444,7 +477,7 @@ class Level1 extends Phaser.Scene {
             this.gameOver = true;
             this.hero.body.velocity.x = Phaser.Math.Between(-20, 20);
             this.hero.body.velocity.y = -gameOptions.playerJump;
-            this.hero.body.gravity.y = gameOptions.playerGravity;
+            this.hero.body.gravity.y = gameOptions.playerGravity * this.hero.body.scaleX;
             this.currentLevel = 0;
             localStorage.setItem(gameOptions.currentLevel, 0);
             setTimeout(() => { this.scene.start("GameOver"); }, 500);
@@ -458,6 +491,14 @@ class Level1 extends Phaser.Scene {
             this.hero.body.velocity.y = -gameOptions.playerJump;
             this.hero.body.gravity.y = gameOptions.playerGravity;
             setTimeout(() => { this.scene.start("GameOver"); }, 500);
+        }, null, this);
+    }
+
+    checkDiamondCollision() {
+        this.physics.overlap(this.hero, this.diamondGroup, () => {
+            this.updateScore(10);
+            var particles = this.add.particles('diamondparticle');
+
         }, null, this);
     }
 
@@ -510,7 +551,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 0,
             turtleSpeed: 0,
-            winingScore: 50
+            winingScore: 100
         },
         {
             score: 0,
