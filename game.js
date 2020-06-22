@@ -7,11 +7,11 @@ var game;
 var gameOptions = {
     gameWidth: 800,
     floorStart: 0.9375, // = 600/640 for lowerst floor and 40 high floor
-    floorGap: 200,
-    playerGravity: 5000,
+    floorGap: 250,
+    playerGravity: 3000,
     playerSpeed: 150,
     climbSpeed: 350,
-    playerJump: 800,
+    playerJump: 900,
     diamondRatio: 2,
     doubleSpikeRatio: 2,
     skyColor: 0xaaeaff,
@@ -47,7 +47,7 @@ window.onload = function () {
         height: 640,
 
         // background color (black)
-        backgroundColor: 0xffffff,
+        backgroundColor: 0x330d53,
 
 
         // scene to play

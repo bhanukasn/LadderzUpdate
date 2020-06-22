@@ -114,7 +114,7 @@ class SelectLevel extends Phaser.Scene {
 
         // Button PLay
         this.btn_play = this.add.sprite(game.config.width / 2, (game.config.height / 13) * 2.8, 'btn_Level1', 0).setInteractive();
-        this.btn_play.displayHeight = game.config.height / 7;
+        this.btn_play.displayHeight = game.config.height / 7.5;
         this.btn_play.displayWidth = game.config.width / 2;
 
         // Button Score
@@ -123,30 +123,30 @@ class SelectLevel extends Phaser.Scene {
             this.btn_score.displayHeight = game.config.height / 8;
             this.btn_score.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:1') == null) {
-            this.btn_score = this.add.sprite(game.config.width / 1.85, (game.config.height / 9) * 3.7, 'L2Locked', 0).setInteractive();
-            this.btn_score.displayHeight = game.config.height / 8;
+            this.btn_score = this.add.sprite(game.config.width / 2, (game.config.height / 9) * 3.7, 'L2Locked', 0).setInteractive();
+            this.btn_score.displayHeight = game.config.height / 7;
             this.btn_score.displayWidth = game.config.width / 1.9;
         }
 
         //Button Help
         if (localStorage.getItem('LEVEL:2') == "C") {
             this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'btn_Level3', 0).setInteractive();
-            this.btn_help.displayHeight = game.config.height / 8;
+            this.btn_help.displayHeight = game.config.height / 7;
             this.btn_help.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:2') == null) {
-            this.btn_help = this.add.sprite(game.config.width / 1.85, (game.config.height / 7.9) * 4.7, 'L3Locked', 0).setInteractive();
-            this.btn_help.displayHeight = game.config.height / 8;
+            this.btn_help = this.add.sprite(game.config.width / 2, (game.config.height / 7.9) * 4.7, 'L3Locked', 0).setInteractive();
+            this.btn_help.displayHeight = game.config.height / 7;
             this.btn_help.displayWidth = game.config.width / 1.9;
         }
 
         // Button exit
         if (localStorage.getItem('LEVEL:3') == "C") {
             this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'btn_Level4', 0).setInteractive();
-            this.btn_leve4.displayHeight = game.config.height / 8;
+            this.btn_leve4.displayHeight = game.config.height / 7;
             this.btn_leve4.displayWidth = game.config.width / 2.1;
         } else if (localStorage.getItem('LEVEL:3') == null) {
-            this.btn_leve4 = this.add.sprite(game.config.width / 1.85, (game.config.height / 6.45) * 5, 'L4Locked', 0).setInteractive();
-            this.btn_leve4.displayHeight = game.config.height / 8;
+            this.btn_leve4 = this.add.sprite(game.config.width / 2, (game.config.height / 6.45) * 5, 'L4Locked', 0).setInteractive();
+            this.btn_leve4.displayHeight = game.config.height / 7;
             this.btn_leve4.displayWidth = game.config.width / 1.9;
         }
 
