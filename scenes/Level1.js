@@ -23,7 +23,6 @@ class Level1 extends Phaser.Scene {
         this.load.image("Trophy", "assets/img/Trophy.png");
         this.load.image("spike", "assets/img/spike.png");
         this.load.image("cloud", "assets/img/cloud.png");
-        // this.load.image("tap", "assets/img/tap.png");
         this.load.bitmapFont("font", "assets/fonts/font.png", "assets/fonts/font.fnt");
 
     }
@@ -165,9 +164,8 @@ class Level1 extends Phaser.Scene {
     //add Ladder
     addLadder(highestFloorY) {
         var ladderXPosition = Phaser.Math.Between(50, game.config.width - 50);
+        console.log(ladderXPosition)
         var ladder = this.physics.add.sprite(ladderXPosition, highestFloorY + 50, "ladder");
-        ladder.setTint(0xffa500);
-        // ladder.displayHeight = 120;
         this.ladderGroup.add(ladder);
         ladder.setSize(ladder.displayWidth, ladder.displayHeight - 10, true)
         this.safeZone = [];
@@ -226,14 +224,14 @@ class Level1 extends Phaser.Scene {
                     });
 
                     spike.play('heporun');
-                    this.tweens.add({
+                    var tween = this.tweens.add({
                         targets: spike,
-                        x: 50,
-                        duration: 3000,
-                        ease: 'Power2',
+                        x: 500,
+                        ease: 'Power1',
+                        duration: 6000,
+                        flipX: true,
                         yoyo: true,
-                        repeat: -1,
-                        delay: 1000
+                        repeat: -1
                     });
                 }
                 spike.setSize(10, 20, true);
@@ -247,7 +245,7 @@ class Level1 extends Phaser.Scene {
         var attempts = 0;
         do {
             attempts++;
-            var posX = Phaser.Math.Between(50, game.config.width - 50)
+            var posX = Phaser.Math.Between(150, game.config.width - 150)
         } while (this.isSafe(posX)) {
             this.safeZone.push({
                 start: posX - gameOptions.safeRadius,
@@ -440,17 +438,19 @@ class Level1 extends Phaser.Scene {
                     if (Math.abs(this.hero.x - ladder.x) < 10) {
                         if (ladder.y >= 0) {
                             this.ladderToClimb = ladder;
+                        } else if(ladder.y == 400) {
+                            this.ladderToClimb.y = 400;
                         }
                         this.hero.body.velocity.x = 0;
                         this.hero.body.velocity.y = - gameOptions.climbSpeed;
                         this.hero.body.gravity.y = 0;
                         this.isClimbing = true;
                     }
+                    // console.log(this.ladderToClimb.y+'===='+ladder.y)
                 });
             }, null, this);
         } else {
             if (this.hero.y < (this.ladderToClimb.y - 90)) {
-                this.physics.world.removeCollider(this.isCollided);
                 this.hero.body.gravity.y = gameOptions.playerGravity;
                 this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scaleX;
                 if (this.hero.body.velocity.x < 0) {
@@ -517,7 +517,7 @@ class Level1 extends Phaser.Scene {
 
         console.log(this.currentLevel)
         localStorage.setItem(gameOptions.currentLevel, this.currentLevel);
-        this.scene.stop();
+        // this.scene.stop();
         this.scene.start('LevelCompleted');
         // if (this.currentLevel == 2) {
         //     this.scene.start('Level3');
@@ -561,7 +561,7 @@ gameLevels = {
             diamondRatio: 0,
             turtleRatio: 1,
             turtleSpeed: 0,
-            winingScore: 50
+            winingScore: 150
         },
         {
             score: 0,
@@ -571,7 +571,7 @@ gameLevels = {
             diamondRatio: 2,
             turtleRatio: 1,
             turtleSpeed: 50,
-            winingScore: 50
+            winingScore: 200
         },
         {
             score: 0,
@@ -581,7 +581,7 @@ gameLevels = {
             diamondRatio: 2,
             turtleRatio: 1,
             turtleSpeed: 50,
-            winingScore: 50
+            winingScore: 250
         }
     ],
 

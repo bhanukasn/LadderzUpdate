@@ -9,9 +9,9 @@ var gameOptions = {
     floorStart: 0.9375, // = 600/640 for lowerst floor and 40 high floor
     floorGap: 250,
     playerGravity: 3000,
-    playerSpeed: 150,
+    playerSpeed: 100,
     climbSpeed: 250,
-    playerJump: 900,
+    playerJump: 800,
     diamondRatio: 2,
     doubleSpikeRatio: 2,
     skyColor: 0xaaeaff,
@@ -57,7 +57,7 @@ window.onload = function () {
         physics: {
             default: 'arcade',
             arcade: {
-                debug: false,
+                debug: true,
                 gravity: {
                     y: 0 //the game gravity
                 }
